@@ -13,7 +13,7 @@ public class Head extends HtmlComponent {
 	@Getter
 	@Setter
 	private String charset;
-	private java.util.List<Theme> themes = new ArrayList<>();
+	private final java.util.List<Theme> themes = new ArrayList<>();
 
 	public void addTheme(Theme theme) {
 		themes.add(theme);

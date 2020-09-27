@@ -7,6 +7,8 @@ public class Table extends HtmlComponent {
 	private java.util.List<java.util.List<HtmlComponent>> rows = new ArrayList<>();
 	private java.util.List<HtmlComponent> actualRow = new ArrayList<>();
 	private java.util.List<HtmlComponent> headRow = new ArrayList<>();
+	private java.util.List<Col> cols = new ArrayList<>();
+	private HtmlComponent caption;
 
 	public Table newRow() {
 		if (!actualRow.isEmpty()) {
@@ -34,6 +36,20 @@ public class Table extends HtmlComponent {
 		return addHead(new StringHtmlComponent(component));
 	}
 
+	public Table setCaption(HtmlComponent component) {
+		caption = component;
+		return this;
+	}
+
+	public Table setCaption(String component) {
+		return setCaption(new StringHtmlComponent(component));
+	}
+	
+	public Table addCol(Col col) {
+		cols.add(col);
+		return this;
+	}
+
 	@Override
 	protected String getTag() {
 		return "table";
@@ -43,6 +59,16 @@ public class Table extends HtmlComponent {
 	protected String getContent() {
 		newRow();
 		StringBuilder builder = new StringBuilder();
+		builder.append("<caption>");
+		builder.append(caption.getSyntax());
+		builder.append("</caption>");
+		if(!cols.isEmpty()){
+			builder.append("<colgroup>");
+			for (Col col : cols) {
+				builder.append(col.getSyntax());
+			}
+			builder.append("</colgroup>");
+		}
 		builder.append("<tr>");
 		for (HtmlComponent comp : headRow) {
 			builder.append("<th>");

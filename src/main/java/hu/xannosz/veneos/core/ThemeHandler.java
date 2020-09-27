@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class ThemeHandler {
 
-	private static Map<String, Theme> themes = new HashMap<>();
+	private static final Map<String, Theme> themes = new HashMap<>();
 
 	public static void registerTheme(Theme theme) {
 		themes.put(theme.getId(), theme);

@@ -44,18 +44,26 @@ public abstract class HtmlComponent {
 	}
 
 	private String getIdSyntax() {
-		return "id=\"" + id.getSyntax() + "\"";
+		if (id != null) {
+			return " id=\"" + id.getSyntax() + "\"";
+		} else {
+			return "";
+		}
 	}
 
 	private String getClassSyntax() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("class=\"");
-		for (HtmlClass clazz : clazzes) {
-			builder.append(" ");
-			builder.append(clazz.getSyntax());
+		if (!clazzes.isEmpty()) {
+			StringBuilder builder = new StringBuilder();
+			builder.append(" class=\"");
+			for (HtmlClass clazz : clazzes) {
+				builder.append(" ");
+				builder.append(clazz.getSyntax());
+			}
+			builder.append("\"");
+			return builder.toString();
+		} else {
+			return "";
 		}
-		builder.append("\"");
-		return builder.toString();
 	}
 
 	public HtmlID getID() {
@@ -70,7 +78,7 @@ public abstract class HtmlComponent {
 	}
 
 	public String getSyntax() {
-		return "<" + getTag() + " " + getIdSyntax() + " " + getClassSyntax() + " " + getMetaSyntax()
-				+ getMetaListSyntax() + ">" + getContent() + "</" + getTag() + ">";
+		return "<" + getTag() + getIdSyntax() + getClassSyntax() + getMetaSyntax() + getMetaListSyntax() + ">"
+				+ getContent() + "</" + getTag() + ">";
 	}
 }

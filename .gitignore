@@ -4,3 +4,5 @@
 /deploy/
 /.project
 /bin/
+/.idea
+veneos.iml

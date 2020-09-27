@@ -10,8 +10,8 @@ import lombok.Getter;
 public class Theme {
 
 	@Getter
-	private String id = UUID.randomUUID().toString();
-	private List<CssComponent> components = new ArrayList<>();
+	private final String id = UUID.randomUUID().toString();
+	private final List<CssComponent> components = new ArrayList<>();
 
 	public void add(CssComponent component) {
 		components.add(component);

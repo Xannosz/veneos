@@ -12,6 +12,10 @@ public class Button extends InlineComponent {
 		meta.put("type", "button");
 	}
 
+	public void setSubmit(){
+		meta.put("type", "submit");
+	}
+
 	@Override
 	protected String getTag() {
 		return "button";
