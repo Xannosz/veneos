@@ -10,6 +10,8 @@ import hu.xannosz.veneos.core.html.A;
 import hu.xannosz.veneos.core.html.Main;
 import hu.xannosz.veneos.core.html.Nav;
 import hu.xannosz.veneos.core.html.P;
+import hu.xannosz.veneos.next.JsonDisplay;
+import org.json.JSONObject;
 
 public class Veneos implements HttpHandler {
 
@@ -28,6 +30,16 @@ public class Veneos implements HttpHandler {
 		normal.setTitle("Normal");
 		normal.addComponent(getNav("Normal"));
 		normal.addComponent(new Main());
+		normal.addComponent(new JsonDisplay(new JSONObject("{" +
+				"\"height\" : 6.2," +
+				"        \"width\" : true," +
+				"        \"length\" : \"9.1\"," +
+				"        \"color\" : {" +
+				"            \"r\" : 255," +
+				"            \"g\" : 200," +
+				"            \"b\" : 10" +
+				"        }" +
+				"    }"),3,normal));
 
 		fields.setTitle("Fields");
 		fields.addComponent(getNav("Fields"));

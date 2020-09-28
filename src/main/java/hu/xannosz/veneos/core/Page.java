@@ -1,8 +1,8 @@
 package hu.xannosz.veneos.core;
 
-import hu.xannosz.veneos.core.html.Body;
-import hu.xannosz.veneos.core.html.Head;
-import hu.xannosz.veneos.core.html.HtmlComponent;
+import hu.xannosz.veneos.core.html.*;
+
+import java.util.Set;
 
 public class Page {
 
@@ -19,6 +19,14 @@ public class Page {
 
     public void addTheme(Theme theme) {
         head.addTheme(theme);
+    }
+
+    public void addScript(String script) {
+        head.addScript(script);
+    }
+
+    public void addScript(Set<String> script) {
+        head.addScript(script);
     }
 
     public void addComponent(HtmlComponent component) {
