@@ -1,6 +1,6 @@
 package hu.xannosz.veneos.core.html;
 
-class StringHtmlComponent extends HtmlComponent {
+public class StringHtmlComponent extends HtmlComponent {
 
 	private String component;
 
