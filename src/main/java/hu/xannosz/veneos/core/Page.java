@@ -1,6 +1,8 @@
 package hu.xannosz.veneos.core;
 
-import hu.xannosz.veneos.core.html.*;
+import hu.xannosz.veneos.core.html.Body;
+import hu.xannosz.veneos.core.html.Head;
+import hu.xannosz.veneos.core.html.HtmlComponent;
 
 import java.util.Set;
 
@@ -15,6 +17,10 @@ public class Page {
 
     public void setCharset(String charset) {
         head.setCharset(charset);
+    }
+
+    public void setAutoRefresh(int time) {
+        head.setAutoRefresh(time);
     }
 
     public void addTheme(Theme theme) {

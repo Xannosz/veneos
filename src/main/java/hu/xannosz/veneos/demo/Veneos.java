@@ -8,9 +8,7 @@ import hu.xannosz.veneos.core.html.A;
 import hu.xannosz.veneos.core.html.Main;
 import hu.xannosz.veneos.core.html.Nav;
 import hu.xannosz.veneos.core.html.P;
-import hu.xannosz.veneos.next.JsonDisplay;
-import hu.xannosz.veneos.next.Login;
-import hu.xannosz.veneos.next.Redirect;
+import hu.xannosz.veneos.next.*;
 import org.json.JSONObject;
 
 import java.util.Map;
@@ -46,10 +44,15 @@ public class Veneos implements HttpHandler {
         fields.setTitle("Fields");
         fields.addComponent(getNav("Fields"));
         fields.addComponent(new Main());
+        fields.addComponent(new ScrollUpButton("Top", new ButtonPosition("20px", "10px"), fields));
+        for (int i = 0; i < 10000; i++) {
+            fields.addComponent(new P("S"));
+        }
 
         high.setTitle("High");
         high.addComponent(getNav("High"));
         high.addComponent(new Main());
+        high.setAutoRefresh(3);
 
         error.setTitle("Error");
         error.addComponent(new P("Wrong Site!"));

@@ -14,6 +14,7 @@ public class Head extends HtmlComponent {
     @Getter
     @Setter
     private String charset;
+    private Integer refreshTime;
     private final Set<Theme> themes = new HashSet<>();
     private final Set<String> scripts = new HashSet<>();
 
@@ -43,6 +44,10 @@ public class Head extends HtmlComponent {
         return stringBuilder.toString();
     }
 
+    public void setAutoRefresh(int refreshTime) {
+        this.refreshTime = refreshTime;
+    }
+
     private String getScriptSyntax() {
         StringBuilder stringBuilder = new StringBuilder();
         for (String script : scripts) {
@@ -57,6 +62,13 @@ public class Head extends HtmlComponent {
         return "<meta http-equiv=\"Content-Type\" content=\"text/html;charset=" + charset + "\">";
     }
 
+    private String getRefreshSyntax() {
+        if(refreshTime==null){
+            return "";
+        }
+        return "<meta http-equiv=\"refresh\" content=\"" + refreshTime + "\">";
+    }
+
     @Override
     protected String getTag() {
         return "head";
@@ -64,6 +76,6 @@ public class Head extends HtmlComponent {
 
     @Override
     protected String getContent() {
-        return getCharsetSyntax() + getTitleSyntax() + getThemeSyntax() + getScriptSyntax();
+        return getCharsetSyntax() + getRefreshSyntax() + getTitleSyntax() + getThemeSyntax() + getScriptSyntax();
     }
 }
