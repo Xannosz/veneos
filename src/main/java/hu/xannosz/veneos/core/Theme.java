@@ -21,6 +21,7 @@ public class Theme {
 		StringBuilder builder = new StringBuilder();
 		for (CssComponent component : components) {
 			builder.append(component.getSyntax());
+			builder.append("\n");
 		}
 		return builder.toString();
 	}

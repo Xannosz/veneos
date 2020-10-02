@@ -9,4 +9,9 @@ public class HtmlClass {
 	public String getSyntax() {
 		return id;
 	}
+
+	@Override
+	public String toString() {
+		return getSyntax();
+	}
 }
