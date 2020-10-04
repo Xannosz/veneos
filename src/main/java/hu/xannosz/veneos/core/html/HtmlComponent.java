@@ -54,7 +54,7 @@ public abstract class HtmlComponent {
     private String getClassSyntax() {
         if (!clazzes.isEmpty()) {
             StringBuilder builder = new StringBuilder();
-            builder.append(" class=\"all");
+            builder.append(" class=\"");
             for (HtmlClass clazz : clazzes) {
                 builder.append(" ");
                 builder.append(clazz.getSyntax());

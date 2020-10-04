@@ -37,7 +37,7 @@ public class Head extends HtmlComponent {
     private String getThemeSyntax() {
         StringBuilder stringBuilder = new StringBuilder();
         for (Theme theme : themes) {
-            stringBuilder.append("<link rel=\"stylesheet\" type=\"text/css\" href=\"css/");
+            stringBuilder.append("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/");
             stringBuilder.append(theme.getId());
             stringBuilder.append("\">");
         }

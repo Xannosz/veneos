@@ -4,14 +4,14 @@ import java.util.UUID;
 
 public class HtmlID {
 
-	private final String id = UUID.randomUUID().toString();
+    private final String id = "id" + UUID.randomUUID().toString().replace("-", "");
 
-	public String getSyntax() {
-		return id;
-	}
+    public String getSyntax() {
+        return id;
+    }
 
-	@Override
-	public String toString() {
-		return getSyntax();
-	}
+    @Override
+    public String toString() {
+        return getSyntax();
+    }
 }
