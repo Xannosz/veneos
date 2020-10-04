@@ -94,7 +94,7 @@ public class Veneos implements HttpHandler {
             case "/log":
                 System.out.println("##:" + requestMap);
                 Page page = new Page();
-                page.addComponent(new Redirect("/normal"));
+                page.addComponent(new Redirect("/normal",5000));
                 return new Douplet<Integer, Page>(200, page);
             default:
                 return new Douplet<Integer, Page>(404, error);

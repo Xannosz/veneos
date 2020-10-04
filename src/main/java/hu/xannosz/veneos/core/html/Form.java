@@ -9,13 +9,14 @@ public class Form extends AbstractBox {
         meta.put("method", "post");
     }
 
-    public void setDatas(Map<String, String> datas) {
+    public Form setDatas(Map<String, String> datas) {
         for (Map.Entry<String, String> data : datas.entrySet()) {
             Input input = new Input("hidden");
             input.setName(data.getKey());
             input.setValue(data.getValue());
             add(input);
         }
+        return this;
     }
 
     @Override
