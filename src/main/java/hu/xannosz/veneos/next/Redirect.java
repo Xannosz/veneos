@@ -1,5 +1,6 @@
 package hu.xannosz.veneos.next;
 
+import hu.xannosz.veneos.core.Page;
 import hu.xannosz.veneos.core.html.HtmlComponent;
 
 import java.util.HashMap;
@@ -8,17 +9,18 @@ import java.util.Map;
 public class Redirect extends HtmlComponent {
 
     private final String target;
-    private final int waitMillis;
-
     private Map<String, String> datas = new HashMap<>();
 
-    public Redirect(String target) {
-        this(target, 0);
+    public Redirect(String target, Page page) {
+        this(target, 0, page);
     }
 
-    public Redirect(String target, int waitMillis) {
+    public Redirect(String target, int waitMillis, Page page) {
         this.target = target;
-        this.waitMillis = waitMillis;
+        page.addScript(
+                "function redirect(){console.log(\"Redirect to " + target + "\");" +
+                        "window.setTimeout(function() {document.redirectForm.submit();}, "
+                        + waitMillis + ");" + "} window.onload=redirect;");
     }
 
     public Redirect setDatas(Map<String, String> datas) {
@@ -42,16 +44,7 @@ public class Redirect extends HtmlComponent {
         for (Map.Entry<String, String> data : datas.entrySet()) {
             builder.append("<input type=\"hidden\" name=\"").append(data.getKey()).append("\" value=\"").append(data.getValue()).append("\"/>");
         }
-        builder.append("</form><script type=\"text/javascript\">" +
-                "function wait(ms){\n" +
-                "   var start = new Date().getTime();\n" +
-                "   var end = start;\n" +
-                "   while(end < start + ms) {\n" +
-                "     end = new Date().getTime();\n" +
-                "  }\n" +
-                "}" +
-                "console.log(\"Redirect to ").append(target).append("\");" +
-                "document.body.appendChild(wait(").append(waitMillis).append("));document.redirectForm.submit();</script>");
+        builder.append("</form>");
         return builder.toString();
     }
 }
