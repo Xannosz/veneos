@@ -10,7 +10,7 @@ public class Login extends Page {
 
     public Login(String target, HtmlComponent buttonName, HtmlComponent userNameLabel, HtmlComponent passwordLabel) {
         Div div = new Div();
-        Form form = new Form(target);
+        Form form = new Form(target,false);
 
         Label userLabel = new Label("userName", userNameLabel);
         form.add(userLabel);

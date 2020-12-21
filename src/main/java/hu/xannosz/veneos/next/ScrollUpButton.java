@@ -10,8 +10,7 @@ public class ScrollUpButton extends FixedButton {
     }
 
     public ScrollUpButton(HtmlComponent element, ButtonPosition position, Page page, int seeAfter) {
-        super("", element, position);
-        meta.put("onclick", "topFunction()");
+        super("topFunction()", element, position,true);
         page.addScript("window.onscroll = function() {\n" +
                 "\tscrollFunction()\n" +
                 "};\n" +
@@ -35,8 +34,7 @@ public class ScrollUpButton extends FixedButton {
     }
 
     public ScrollUpButton(String element, ButtonPosition position, Page page, int seeAfter) {
-        super("", element, position);
-        meta.put("onclick", "topFunction()");
+        super("topFunction()", element, position,true);
         page.addScript("window.onscroll = function() {\n" +
                 "\tscrollFunction()\n" +
                 "};\n" +

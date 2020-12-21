@@ -6,17 +6,21 @@ import hu.xannosz.veneos.core.html.HtmlComponent;
 
 public class OneButtonForm extends Form {
 
-    public OneButtonForm(String action, HtmlComponent element) {
-        super(action);
+    public OneButtonForm(String action, HtmlComponent element, boolean useOnClick) {
+        super(action, useOnClick);
         Button button = new Button(element);
-        button.setSubmit();
+        if (!useOnClick) {
+            button.setSubmit();
+        }
         add(button);
     }
 
-    public OneButtonForm(String action, String element) {
-        super(action);
+    public OneButtonForm(String action, String element, boolean useOnClick) {
+        super(action, useOnClick);
         Button button = new Button(element);
-        button.setSubmit();
+        if (!useOnClick) {
+            button.setSubmit();
+        }
         add(button);
     }
 }

@@ -4,9 +4,13 @@ import java.util.Map;
 
 public class Form extends AbstractBox {
 
-    public Form(String action) {
-        meta.put("action", action);
-        meta.put("method", "post");
+    public Form(String action, boolean useOnClick) {
+        if (useOnClick) {
+            meta.put("onclick", action);
+        } else {
+            meta.put("action", action);
+            meta.put("method", "post");
+        }
     }
 
     public Form setDatas(Map<String, String> datas) {

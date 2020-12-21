@@ -6,16 +6,19 @@ public class Img extends SingleHtmlComponent {
 		meta.put("src", src);
 	}
 
-	public void setAlt(String alt) {
+	public Img setAlt(String alt) {
 		meta.put("alt", alt);
+		return this;
 	}
 
-	public void setHeight(String height) {
+	public Img setHeight(String height) {
 		meta.put("height", height);
+		return this;
 	}
 
-	public void setWidth(String width) {
+	public Img setWidth(String width) {
 		meta.put("width", width);
+		return this;
 	}
 
 	@Override

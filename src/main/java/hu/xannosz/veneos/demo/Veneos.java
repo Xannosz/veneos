@@ -1,16 +1,15 @@
 package hu.xannosz.veneos.demo;
 
 import hu.xannosz.microtools.pack.Douplet;
+import hu.xannosz.veneos.core.FileContainer;
 import hu.xannosz.veneos.core.HttpHandler;
 import hu.xannosz.veneos.core.Page;
 import hu.xannosz.veneos.core.VeneosServer;
-import hu.xannosz.veneos.core.html.A;
-import hu.xannosz.veneos.core.html.Main;
-import hu.xannosz.veneos.core.html.Nav;
-import hu.xannosz.veneos.core.html.P;
+import hu.xannosz.veneos.core.html.*;
 import hu.xannosz.veneos.next.*;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.Map;
 
 public class Veneos implements HttpHandler {
@@ -27,6 +26,10 @@ public class Veneos implements HttpHandler {
     private Page error = new Page();
 
     public Veneos() {
+        FileContainer.addFile("pdf1","application/pdf",new File("resources/temp/doc.pdf"));
+        FileContainer.addFile("kep1.png",new File("resources/temp/kep.png"));
+        FileContainer.addFile("kep2",new File("resources/temp/kep.png"));
+
         normal.setTitle("Normal");
         normal.addComponent(getNav("Normal"));
         normal.addComponent(new Main());
@@ -40,6 +43,8 @@ public class Veneos implements HttpHandler {
                 "            \"b\" : 10" +
                 "        }" +
                 "    }"), 3, normal));
+        normal.addComponent(new CopyButton((new Img("/files/kep2")).setHeight("20px").setWidth("30px"), normal, "copied text"));
+        normal.addComponent((new Img("/files/kep1.png")).setHeight("10px").setWidth("20px"));
 
         fields.setTitle("Fields");
         fields.addComponent(getNav("Fields"));
@@ -95,7 +100,7 @@ public class Veneos implements HttpHandler {
                 System.out.println("##:" + requestMap);
                 Page page = new Page();
                 page.addComponent(new P("lorum ipsum"));
-                page.addComponent(new Redirect("/normal",5000,page));
+                page.addComponent(new Redirect("/normal", 5000, page));
                 return new Douplet<Integer, Page>(200, page);
             default:
                 return new Douplet<Integer, Page>(404, error);
