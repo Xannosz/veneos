@@ -26,8 +26,6 @@ public class Veneos implements HttpHandler {
     private Page error = new Page();
 
     public Veneos() {
-        FileContainer.addFile("pdf1", "application/pdf",
-                FileResourcesUtils.getFileFromResourceAsFile("temp/doc.pdf"));
         FileContainer.addFile("kep1.png",
                 FileResourcesUtils.getFileFromResourceAsFile("temp/kep.png"));
         FileContainer.addFile("kep2",
