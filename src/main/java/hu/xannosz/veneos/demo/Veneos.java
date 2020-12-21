@@ -1,5 +1,6 @@
 package hu.xannosz.veneos.demo;
 
+import hu.xannosz.microtools.FileResourcesUtils;
 import hu.xannosz.microtools.pack.Douplet;
 import hu.xannosz.veneos.core.FileContainer;
 import hu.xannosz.veneos.core.HttpHandler;
@@ -9,7 +10,6 @@ import hu.xannosz.veneos.core.html.*;
 import hu.xannosz.veneos.next.*;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.util.Map;
 
 public class Veneos implements HttpHandler {
@@ -26,9 +26,12 @@ public class Veneos implements HttpHandler {
     private Page error = new Page();
 
     public Veneos() {
-        FileContainer.addFile("pdf1","application/pdf",new File("resources/temp/doc.pdf"));
-        FileContainer.addFile("kep1.png",new File("resources/temp/kep.png"));
-        FileContainer.addFile("kep2",new File("resources/temp/kep.png"));
+        FileContainer.addFile("pdf1", "application/pdf",
+                FileResourcesUtils.getFileFromResourceAsFile("temp/doc.pdf"));
+        FileContainer.addFile("kep1.png",
+                FileResourcesUtils.getFileFromResourceAsFile("temp/kep.png"));
+        FileContainer.addFile("kep2",
+                FileResourcesUtils.getFileFromResourceAsFile("temp/kep.png"));
 
         normal.setTitle("Normal");
         normal.addComponent(getNav("Normal"));
