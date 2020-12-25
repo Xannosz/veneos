@@ -46,6 +46,7 @@ public class Veneos implements HttpHandler {
                 "    }"), 3, normal));
         normal.addComponent(new CopyButton((new Img("/files/kep2")).setHeight("20px").setWidth("30px"), normal, "copied text"));
         normal.addComponent((new Img("/files/kep1.png")).setHeight("10px").setWidth("20px"));
+        normal.addComponent(new Table());
 
         fields.setTitle("Fields");
         fields.addComponent(getNav("Fields"));

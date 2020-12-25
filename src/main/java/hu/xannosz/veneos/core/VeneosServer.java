@@ -36,7 +36,7 @@ public class VeneosServer {
             server.createContext("/css", new CSSHandler());
             server.setExecutor(null);
             server.start();
-        } catch (IOException e) {
+        } catch (Exception e) {
             logger.error(e);
         }
     }
@@ -47,7 +47,13 @@ public class VeneosServer {
                     t.getRequestMethod().equals("GET") ? RequestMethod.GET : RequestMethod.POST,
                     t.getRequestURI().getPath(), getRequestMap(t.getRequestBody()));
             response.getSecond().setCharset(encoding);
-            byte[] responseSyntax = response.getSecond().getSyntax().getBytes(encoding);
+            String syntax = "";
+            try {
+                syntax = response.getSecond().getSyntax();
+            } catch (Exception e) {
+                logger.error(e);
+            }
+            byte[] responseSyntax = syntax.getBytes(encoding);
             t.sendResponseHeaders(response.getFirst(), responseSyntax.length);
             OutputStream os = t.getResponseBody();
             os.write(responseSyntax);

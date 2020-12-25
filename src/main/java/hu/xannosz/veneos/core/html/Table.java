@@ -4,11 +4,11 @@ import java.util.ArrayList;
 
 public class Table extends HtmlComponent {
 
-	private java.util.List<java.util.List<HtmlComponent>> rows = new ArrayList<>();
+	private final java.util.List<java.util.List<HtmlComponent>> rows = new ArrayList<>();
 	private java.util.List<HtmlComponent> actualRow = new ArrayList<>();
-	private java.util.List<HtmlComponent> headRow = new ArrayList<>();
-	private java.util.List<Col> cols = new ArrayList<>();
-	private HtmlComponent caption;
+	private final java.util.List<HtmlComponent> headRow = new ArrayList<>();
+	private final java.util.List<Col> cols = new ArrayList<>();
+	private HtmlComponent caption = new StringHtmlComponent("");
 
 	public Table newRow() {
 		if (!actualRow.isEmpty()) {
@@ -86,7 +86,5 @@ public class Table extends HtmlComponent {
 			builder.append("</tr>");
 		}
 		return builder.toString();
-
 	}
-
 }
