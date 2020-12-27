@@ -1,36 +1,41 @@
 package hu.xannosz.veneos.core.css;
 
-import java.util.HashMap;
-import java.util.Map;
+import org.apache.commons.lang.StringUtils;
+
+import java.util.*;
 import java.util.Map.Entry;
 
 public class CssComponent {
 
-    private final Selector selector;
-    private final Map<CssAttribute, String> attributes = new HashMap<>();
+    private final List<Selector> selectors;
+    private final Map<CssProperty, String> properties = new HashMap<>();
 
     public CssComponent(HtmlSelector selector) {
-        this.selector = selector.getSelector();
+        this.selectors = Collections.singletonList(selector.getSelector());
     }
 
-    public CssComponent(Selector selector) {
-        this.selector = selector;
+    public CssComponent(Selector... selectors) {
+        this.selectors = Arrays.asList(selectors);
     }
 
-    public CssComponent addAttribute(CssAttribute attribute, String value) {
-        attributes.put(attribute, value);
+    public CssComponent addProperty(CssProperty property, String value) {
+        properties.put(property, value);
         return this;
     }
 
     public String getSyntax() {
         StringBuilder builder = new StringBuilder();
-        for (Entry<CssAttribute, String> attribute : attributes.entrySet()) {
-            builder.append(attribute.getKey().getSyntax());
+        for (Entry<CssProperty, String> property : properties.entrySet()) {
+            builder.append(property.getKey().getSyntax());
             builder.append(": ");
-            builder.append(attribute.getValue());
+            builder.append(property.getValue());
             builder.append(";");
         }
-        return selector.getSyntax() + " {" + builder.toString() + "}";
+        return toSyntax(selectors) + " {" + builder.toString() + "}";
+    }
+
+    private String toSyntax(List<Selector> selectors) {
+        return StringUtils.join(selectors.stream().map(Selector::getSyntax).distinct().toArray(String[]::new), ", ");
     }
 
 }

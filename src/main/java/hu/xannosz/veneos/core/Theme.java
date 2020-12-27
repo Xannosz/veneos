@@ -13,8 +13,9 @@ public class Theme {
 	private final String id = UUID.randomUUID().toString();
 	private final List<CssComponent> components = new ArrayList<>();
 
-	public void add(CssComponent component) {
+	public Theme add(CssComponent component) {
 		components.add(component);
+		return this;
 	}
 
 	public String getSyntax() {

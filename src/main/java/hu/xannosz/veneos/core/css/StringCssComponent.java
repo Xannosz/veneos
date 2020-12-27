@@ -1,11 +1,12 @@
 package hu.xannosz.veneos.core.css;
 
+@Deprecated
 public class StringCssComponent extends CssComponent {
 
-	private String component;
+	private final String component;
 
-	public StringCssComponent(Selector selector, String component) {
-		super(selector);
+	public StringCssComponent(String component) {
+		super(new Selector(""));
 		this.component = component;
 	}
 

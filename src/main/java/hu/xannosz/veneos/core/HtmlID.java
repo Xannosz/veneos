@@ -1,5 +1,7 @@
 package hu.xannosz.veneos.core;
 
+import hu.xannosz.veneos.core.css.Selector;
+
 import java.util.UUID;
 
 public class HtmlID {
@@ -8,6 +10,10 @@ public class HtmlID {
 
     public String getSyntax() {
         return id;
+    }
+
+    public Selector getSelector(){
+        return new Selector(this);
     }
 
     @Override
