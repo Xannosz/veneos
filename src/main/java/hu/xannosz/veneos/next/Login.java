@@ -1,7 +1,14 @@
 package hu.xannosz.veneos.next;
 
 import hu.xannosz.veneos.core.Page;
-import hu.xannosz.veneos.core.html.*;
+import hu.xannosz.veneos.core.html.HtmlComponent;
+import hu.xannosz.veneos.core.html.StringHtmlComponent;
+import hu.xannosz.veneos.core.html.box.Div;
+import hu.xannosz.veneos.core.html.form.Button;
+import hu.xannosz.veneos.core.html.form.Form;
+import hu.xannosz.veneos.core.html.form.Input;
+import hu.xannosz.veneos.core.html.form.Label;
+import hu.xannosz.veneos.core.html.str.StringModifiers;
 
 public class Login extends Page {
     public Login(String target, String buttonName, String userNameLabel, String passwordLabel) {
@@ -10,7 +17,7 @@ public class Login extends Page {
 
     public Login(String target, HtmlComponent buttonName, HtmlComponent userNameLabel, HtmlComponent passwordLabel) {
         Div div = new Div();
-        Form form = new Form(target,false);
+        Form form = new Form(target, false);
 
         Label userLabel = new Label("userName", userNameLabel);
         form.add(userLabel);

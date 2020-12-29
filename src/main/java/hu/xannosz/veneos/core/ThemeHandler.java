@@ -5,13 +5,13 @@ import java.util.Map;
 
 public class ThemeHandler {
 
-	private static final Map<String, Theme> themes = new HashMap<>();
+    private static final Map<String, Theme> themes = new HashMap<>();
 
-	public static void registerTheme(Theme theme) {
-		themes.put(theme.getId(), theme);
-	}
+    public static void registerTheme(Theme theme) {
+        themes.put(theme.getId(), theme);
+    }
 
-	public static Theme getTheme(String id) {
-		return themes.get(id);
-	}
+    public static Theme getTheme(String id) {
+        return themes.get(id);
+    }
 }

@@ -16,7 +16,7 @@ public class CopyButton extends OneButtonForm {
     }
 
     private static String addCopyFunction(Page page, String text) {
-        String action = "func"+UUID.randomUUID().toString().replace("-", "") + "()";
+        String action = "func" + UUID.randomUUID().toString().replace("-", "") + "()";
         page.addScript(
                 "function " + action + "{" +
                         "const elem = document.createElement('textarea');\n" +

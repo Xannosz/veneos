@@ -6,7 +6,12 @@ import hu.xannosz.veneos.core.FileContainer;
 import hu.xannosz.veneos.core.HttpHandler;
 import hu.xannosz.veneos.core.Page;
 import hu.xannosz.veneos.core.VeneosServer;
-import hu.xannosz.veneos.core.html.*;
+import hu.xannosz.veneos.core.html.box.Main;
+import hu.xannosz.veneos.core.html.box.Nav;
+import hu.xannosz.veneos.core.html.str.A;
+import hu.xannosz.veneos.core.html.str.P;
+import hu.xannosz.veneos.core.htmlold.Img;
+import hu.xannosz.veneos.core.htmlold.Table;
 import hu.xannosz.veneos.next.*;
 import org.json.JSONObject;
 

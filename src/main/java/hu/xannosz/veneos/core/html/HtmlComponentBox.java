@@ -1,13 +1,15 @@
 package hu.xannosz.veneos.core.html;
 
-public class HtmlComponentBox extends AbstractBox {
-	@Override
-	public String getSyntax() {
-		return getContent();
-	}
+import hu.xannosz.veneos.core.html.box.AbstractBox;
 
-	@Override
-	protected String getTag() {
-		return null;
-	}
+public class HtmlComponentBox extends AbstractBox {
+    @Override
+    public String getSyntax() {
+        return getContent();
+    }
+
+    @Override
+    protected String getTag() {
+        return null;
+    }
 }

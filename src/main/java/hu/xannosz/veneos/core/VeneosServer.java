@@ -126,6 +126,7 @@ public class VeneosServer {
             byte[] bytearray = new byte[(int) file.length()];
             FileInputStream fis = new FileInputStream(file);
             BufferedInputStream bis = new BufferedInputStream(fis);
+            //noinspection ResultOfMethodCallIgnored
             bis.read(bytearray, 0, bytearray.length);
 
             t.sendResponseHeaders(200, file.length());

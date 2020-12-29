@@ -1,8 +1,8 @@
 package hu.xannosz.veneos.core;
 
-import hu.xannosz.veneos.core.html.Body;
-import hu.xannosz.veneos.core.html.Head;
 import hu.xannosz.veneos.core.html.HtmlComponent;
+import hu.xannosz.veneos.core.html.structure.Body;
+import hu.xannosz.veneos.core.html.structure.Head;
 
 import java.util.Set;
 
@@ -24,6 +24,7 @@ public class Page {
     }
 
     public void addTheme(Theme theme) {
+        ThemeHandler.registerTheme(theme);
         head.addTheme(theme);
     }
 

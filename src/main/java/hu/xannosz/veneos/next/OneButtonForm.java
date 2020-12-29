@@ -1,8 +1,8 @@
 package hu.xannosz.veneos.next;
 
-import hu.xannosz.veneos.core.html.Button;
-import hu.xannosz.veneos.core.html.Form;
 import hu.xannosz.veneos.core.html.HtmlComponent;
+import hu.xannosz.veneos.core.html.form.Button;
+import hu.xannosz.veneos.core.html.form.Form;
 
 public class OneButtonForm extends Form {
 

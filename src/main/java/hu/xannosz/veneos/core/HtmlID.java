@@ -1,6 +1,6 @@
 package hu.xannosz.veneos.core;
 
-import hu.xannosz.veneos.core.css.Selector;
+import hu.xannosz.veneos.core.css.selector.Selector;
 
 import java.util.UUID;
 
@@ -12,7 +12,7 @@ public class HtmlID {
         return id;
     }
 
-    public Selector getSelector(){
+    public Selector getSelector() {
         return new Selector(this);
     }
 
