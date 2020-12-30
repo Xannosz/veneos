@@ -1,6 +1,6 @@
 package hu.xannosz.veneos.core.html.structure;
 
-import hu.xannosz.veneos.core.Theme;
+import hu.xannosz.veneos.core.css.Theme;
 import hu.xannosz.veneos.core.html.HtmlComponent;
 import lombok.Getter;
 import lombok.Setter;

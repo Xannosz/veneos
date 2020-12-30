@@ -1,8 +1,5 @@
 package hu.xannosz.veneos.core.html;
 
-import hu.xannosz.veneos.core.HtmlClass;
-import hu.xannosz.veneos.core.HtmlID;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;

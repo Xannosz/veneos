@@ -1,7 +1,7 @@
 package hu.xannosz.veneos.core.css.selector;
 
-import hu.xannosz.veneos.core.HtmlClass;
-import hu.xannosz.veneos.core.HtmlID;
+import hu.xannosz.veneos.core.html.HtmlClass;
+import hu.xannosz.veneos.core.html.HtmlID;
 
 public class Selector extends SelectAttribute {
 

@@ -1,7 +1,7 @@
 package hu.xannosz.veneos.core.css;
 
-import hu.xannosz.veneos.core.DefaultLogHandler;
-import hu.xannosz.veneos.core.LogHandler;
+import hu.xannosz.veneos.core.handler.DefaultLogHandler;
+import hu.xannosz.veneos.core.handler.LogHandler;
 import lombok.Setter;
 
 import java.util.HashMap;

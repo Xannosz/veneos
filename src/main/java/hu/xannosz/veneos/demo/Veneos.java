@@ -2,16 +2,16 @@ package hu.xannosz.veneos.demo;
 
 import hu.xannosz.microtools.FileResourcesUtils;
 import hu.xannosz.microtools.pack.Douplet;
-import hu.xannosz.veneos.core.FileContainer;
-import hu.xannosz.veneos.core.HttpHandler;
-import hu.xannosz.veneos.core.Page;
 import hu.xannosz.veneos.core.VeneosServer;
+import hu.xannosz.veneos.core.handler.FileContainer;
+import hu.xannosz.veneos.core.handler.HttpHandler;
 import hu.xannosz.veneos.core.html.box.Main;
 import hu.xannosz.veneos.core.html.box.Nav;
+import hu.xannosz.veneos.core.html.media.Img;
 import hu.xannosz.veneos.core.html.str.A;
 import hu.xannosz.veneos.core.html.str.P;
-import hu.xannosz.veneos.core.htmlold.Img;
-import hu.xannosz.veneos.core.htmlold.Table;
+import hu.xannosz.veneos.core.html.structure.Page;
+import hu.xannosz.veneos.core.html.table.Table;
 import hu.xannosz.veneos.next.*;
 import org.json.JSONObject;
 

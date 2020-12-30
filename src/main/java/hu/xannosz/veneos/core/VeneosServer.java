@@ -5,7 +5,13 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import hu.xannosz.microtools.pack.Douplet;
-import hu.xannosz.veneos.core.HttpHandler.RequestMethod;
+import hu.xannosz.veneos.core.css.Theme;
+import hu.xannosz.veneos.core.handler.DefaultLogHandler;
+import hu.xannosz.veneos.core.handler.FileContainer;
+import hu.xannosz.veneos.core.handler.HttpHandler.RequestMethod;
+import hu.xannosz.veneos.core.handler.LogHandler;
+import hu.xannosz.veneos.core.handler.ThemeHandler;
+import hu.xannosz.veneos.core.html.structure.Page;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.io.IOUtils;
@@ -20,7 +26,7 @@ import java.util.Map;
 public class VeneosServer {
 
     @Setter
-    private hu.xannosz.veneos.core.HttpHandler handler;
+    private hu.xannosz.veneos.core.handler.HttpHandler handler;
     @Setter
     private LogHandler logger = new DefaultLogHandler();
     @Getter

@@ -1,7 +1,7 @@
 package hu.xannosz.veneos.next;
 
-import hu.xannosz.veneos.core.Page;
 import hu.xannosz.veneos.core.html.HtmlComponent;
+import hu.xannosz.veneos.core.html.structure.Page;
 
 import java.util.HashMap;
 import java.util.Map;
