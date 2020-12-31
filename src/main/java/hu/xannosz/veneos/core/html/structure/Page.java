@@ -15,6 +15,14 @@ public class Page {
         head.setTitle(title);
     }
 
+    public void setBase(Base base) {
+        head.setBase(base);
+    }
+
+    public void setStyle(Theme style) {
+        head.setStyle(style);
+    }
+
     public void setCharset(String charset) {
         head.setCharset(charset);
     }

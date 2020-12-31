@@ -1,6 +1,6 @@
 package hu.xannosz.veneos.core.html.form;
 
-import hu.xannosz.veneos.core.html.box.AbstractBox;
+import hu.xannosz.veneos.core.html.AbstractBox;
 
 public class Select extends AbstractBox {
 

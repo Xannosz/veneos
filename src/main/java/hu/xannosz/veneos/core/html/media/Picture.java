@@ -1,6 +1,6 @@
 package hu.xannosz.veneos.core.html.media;
 
-import hu.xannosz.veneos.core.html.box.AbstractBox;
+import hu.xannosz.veneos.core.html.AbstractBox;
 
 public class Picture extends AbstractBox {
 

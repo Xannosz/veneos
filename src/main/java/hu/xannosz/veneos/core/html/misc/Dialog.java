@@ -1,17 +1,16 @@
-package hu.xannosz.veneos.core.html.structure;
+package hu.xannosz.veneos.core.html.misc;
 
 import hu.xannosz.veneos.core.html.HtmlComponent;
 import hu.xannosz.veneos.core.html.InlineComponent;
-import hu.xannosz.veneos.core.html.StringHtmlComponent;
 
 public class Dialog extends InlineComponent {
 
     public Dialog(String element) {
-        this.element = new StringHtmlComponent(element);
+        super(element);
     }
 
     public Dialog(HtmlComponent element) {
-        this.element = element;
+        super(element);
     }
 
     public void setOpen() {

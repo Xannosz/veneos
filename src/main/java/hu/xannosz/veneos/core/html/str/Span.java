@@ -1,27 +1,20 @@
 package hu.xannosz.veneos.core.html.str;
 
 import hu.xannosz.veneos.core.html.HtmlComponent;
-import hu.xannosz.veneos.core.html.StringHtmlComponent;
+import hu.xannosz.veneos.core.html.InlineComponent;
 
-public class Span extends HtmlComponent {
-
-    private final HtmlComponent content;
+public class Span extends InlineComponent {
 
     public Span(String content) {
-        this.content = new StringHtmlComponent(content);
+        super(content);
     }
 
     public Span(HtmlComponent content) {
-        this.content = content;
+        super(content);
     }
 
     @Override
     protected String getTag() {
         return "span";
-    }
-
-    @Override
-    protected String getContent() {
-        return content.getSyntax();
     }
 }

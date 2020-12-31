@@ -86,6 +86,6 @@ public interface LogHandler {
     }
 
     enum LogLevel {
-        TRACE, DEBUG, INFO, WARNING, ERROR;
+        TRACE, DEBUG, INFO, WARNING, ERROR
     }
 }

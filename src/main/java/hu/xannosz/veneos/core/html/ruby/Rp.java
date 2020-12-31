@@ -1,21 +1,20 @@
-package hu.xannosz.veneos.core.html.media;
+package hu.xannosz.veneos.core.html.ruby;
 
 import hu.xannosz.veneos.core.html.HtmlComponent;
 import hu.xannosz.veneos.core.html.InlineComponent;
 
-public class Figcaption extends InlineComponent {
+public class Rp extends InlineComponent {
 
-    public Figcaption(String element) {
+    public Rp(String element) {
         super(element);
     }
 
-    public Figcaption(HtmlComponent element) {
+    public Rp(HtmlComponent element) {
         super(element);
     }
 
     @Override
     protected String getTag() {
-        return "figcaption";
+        return "rp";
     }
-
 }

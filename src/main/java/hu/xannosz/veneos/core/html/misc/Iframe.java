@@ -1,4 +1,4 @@
-package hu.xannosz.veneos.core.html.structure;
+package hu.xannosz.veneos.core.html.misc;
 
 import hu.xannosz.veneos.core.html.HtmlComponent;
 

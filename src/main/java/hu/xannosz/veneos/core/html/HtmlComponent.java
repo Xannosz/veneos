@@ -9,11 +9,11 @@ public abstract class HtmlComponent {
 
     private HtmlID id;
 
-    protected java.util.List<HtmlClass> clazzes = new ArrayList<>();
+    protected final java.util.List<HtmlClass> clazzes = new ArrayList<>();
 
-    protected java.util.List<String> metaList = new ArrayList<>();
+    protected final java.util.List<String> metaList = new ArrayList<>();
 
-    protected Map<String, String> meta = new HashMap<>();
+    protected final Map<String, String> meta = new HashMap<>();
 
     protected abstract String getTag();
 

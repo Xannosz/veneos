@@ -2,16 +2,15 @@ package hu.xannosz.veneos.core.html.form;
 
 import hu.xannosz.veneos.core.html.HtmlComponent;
 import hu.xannosz.veneos.core.html.InlineComponent;
-import hu.xannosz.veneos.core.html.StringHtmlComponent;
 
 public class Legend extends InlineComponent {
 
     public Legend(String element) {
-        this.element = new StringHtmlComponent(element);
+        super(element);
     }
 
     public Legend(HtmlComponent element) {
-        this.element = element;
+        super(element);
     }
 
     @Override

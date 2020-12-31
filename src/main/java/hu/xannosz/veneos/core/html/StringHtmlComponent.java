@@ -1,9 +1,7 @@
 package hu.xannosz.veneos.core.html;
 
-@Deprecated
-public class StringHtmlComponent extends HtmlComponent {
-
-    private String component;
+class StringHtmlComponent extends HtmlComponent {
+    private final String component;
 
     public StringHtmlComponent(String component) {
         this.component = component;

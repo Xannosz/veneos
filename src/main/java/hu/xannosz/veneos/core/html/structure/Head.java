@@ -18,6 +18,10 @@ public class Head extends HtmlComponent {
     private Integer refreshTime;
     private final Set<Theme> themes = new HashSet<>();
     private final Set<String> scripts = new HashSet<>();
+    @Setter
+    private Base base;
+    @Setter
+    private Theme style;
 
     public void addTheme(Theme theme) {
         themes.add(theme);
@@ -43,6 +47,10 @@ public class Head extends HtmlComponent {
             stringBuilder.append("\">");
         }
         return stringBuilder.toString();
+    }
+
+    private String getStyleSyntax() {
+        return "<style>" + style.getSyntax() + "</style>";
     }
 
     public void setAutoRefresh(int refreshTime) {
@@ -77,6 +85,7 @@ public class Head extends HtmlComponent {
 
     @Override
     protected String getContent() {
-        return getCharsetSyntax() + getRefreshSyntax() + getTitleSyntax() + getThemeSyntax() + getScriptSyntax();
+        return getCharsetSyntax() + getRefreshSyntax() + getTitleSyntax() + getThemeSyntax()
+                + getScriptSyntax() + base.getSyntax() + getStyleSyntax();
     }
 }

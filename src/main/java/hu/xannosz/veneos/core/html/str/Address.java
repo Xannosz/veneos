@@ -1,12 +1,16 @@
 package hu.xannosz.veneos.core.html.str;
 
+import hu.xannosz.veneos.core.html.HtmlComponent;
 import hu.xannosz.veneos.core.html.InlineComponent;
-import hu.xannosz.veneos.core.html.StringHtmlComponent;
 
 public class Address extends InlineComponent {
 
     public Address(String element) {
-        this.element = new StringHtmlComponent(element);
+        super(element);
+    }
+
+    public Address(HtmlComponent element) {
+        super(element);
     }
 
     @Override

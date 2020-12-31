@@ -4,8 +4,8 @@ import hu.xannosz.veneos.core.html.HtmlComponent;
 
 public class H extends HtmlComponent {
 
-    private int num;
-    private String header;
+    private final int num;
+    private final String header;
 
     public H(int num, String header) {
         if (num < 1) {

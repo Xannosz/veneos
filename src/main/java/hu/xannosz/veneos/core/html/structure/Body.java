@@ -1,6 +1,6 @@
 package hu.xannosz.veneos.core.html.structure;
 
-import hu.xannosz.veneos.core.html.box.AbstractBox;
+import hu.xannosz.veneos.core.html.AbstractBox;
 
 public class Body extends AbstractBox {
 

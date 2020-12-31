@@ -1,6 +1,4 @@
-package hu.xannosz.veneos.core.html.box;
-
-import hu.xannosz.veneos.core.html.HtmlComponent;
+package hu.xannosz.veneos.core.html;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +9,11 @@ public abstract class AbstractBox extends HtmlComponent {
 
     public AbstractBox add(HtmlComponent component) {
         components.add(component);
+        return this;
+    }
+
+    public AbstractBox add(String component) {
+        add(new StringHtmlComponent(component));
         return this;
     }
 

@@ -25,10 +25,10 @@ public class Veneos implements HttpHandler {
         server.setHandler(new Veneos());
     }
 
-    private Page normal = new Page();
-    private Page fields = new Page();
-    private Page high = new Page();
-    private Page error = new Page();
+    private final Page normal = new Page();
+    private final Page fields = new Page();
+    private final Page high = new Page();
+    private final Page error = new Page();
 
     public Veneos() {
         FileContainer.addFile("kep1.png",
@@ -96,13 +96,13 @@ public class Veneos implements HttpHandler {
         switch (requestURI) {
             case "/":
             case "/normal":
-                return new Douplet<Integer, Page>(200, normal);
+                return new Douplet<>(200, normal);
             case "/fields":
-                return new Douplet<Integer, Page>(200, fields);
+                return new Douplet<>(200, fields);
             case "/high":
-                return new Douplet<Integer, Page>(200, high);
+                return new Douplet<>(200, high);
             case "/login":
-                return new Douplet<Integer, Page>(200, new Login("/log", "Belep", "User:", "PWD:"));
+                return new Douplet<>(200, new Login("/log", "Belep", "User:", "PWD:"));
             case "/log":
                 System.out.println("##:" + requestMap);
                 Page page = new Page();

@@ -2,14 +2,14 @@ package hu.xannosz.veneos.core.html.misc;
 
 import hu.xannosz.veneos.core.html.InlineComponent;
 
-public class Canvas extends InlineComponent {
+public class Script extends InlineComponent {
 
-    public Canvas(String alternative) {
-        super(alternative);
+    public Script(String element) {
+        super(element);
     }
 
     @Override
     protected String getTag() {
-        return "canvas";
+        return "script";
     }
 }

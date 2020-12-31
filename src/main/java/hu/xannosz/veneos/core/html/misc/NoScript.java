@@ -1,21 +1,20 @@
-package hu.xannosz.veneos.core.html.media;
+package hu.xannosz.veneos.core.html.misc;
 
 import hu.xannosz.veneos.core.html.HtmlComponent;
 import hu.xannosz.veneos.core.html.InlineComponent;
 
-public class Figcaption extends InlineComponent {
+public class NoScript extends InlineComponent {
 
-    public Figcaption(String element) {
+    public NoScript(String element) {
         super(element);
     }
 
-    public Figcaption(HtmlComponent element) {
+    public NoScript(HtmlComponent element) {
         super(element);
     }
 
     @Override
     protected String getTag() {
-        return "figcaption";
+        return "noscript";
     }
-
 }

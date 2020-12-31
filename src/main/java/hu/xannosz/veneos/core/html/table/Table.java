@@ -1,7 +1,6 @@
 package hu.xannosz.veneos.core.html.table;
 
 import hu.xannosz.veneos.core.html.HtmlComponent;
-import hu.xannosz.veneos.core.html.StringHtmlComponent;
 
 import java.util.ArrayList;
 
@@ -11,7 +10,7 @@ public class Table extends HtmlComponent {
     private java.util.List<HtmlComponent> actualRow = new ArrayList<>();
     private final java.util.List<HtmlComponent> headRow = new ArrayList<>();
     private final java.util.List<Col> cols = new ArrayList<>();
-    private HtmlComponent caption = new StringHtmlComponent("");
+    private HtmlComponent caption = new StringComponent("");
 
     public Table newRow() {
         if (!actualRow.isEmpty()) {
@@ -27,7 +26,7 @@ public class Table extends HtmlComponent {
     }
 
     public Table add(String component) {
-        return add(new StringHtmlComponent(component));
+        return add(new StringComponent(component));
     }
 
     public Table addHead(HtmlComponent component) {
@@ -36,7 +35,7 @@ public class Table extends HtmlComponent {
     }
 
     public Table addHead(String component) {
-        return addHead(new StringHtmlComponent(component));
+        return addHead(new StringComponent(component));
     }
 
     public Table setCaption(HtmlComponent component) {
@@ -45,7 +44,7 @@ public class Table extends HtmlComponent {
     }
 
     public Table setCaption(String component) {
-        return setCaption(new StringHtmlComponent(component));
+        return setCaption(new StringComponent(component));
     }
 
     public Table addCol(Col col) {
@@ -89,5 +88,28 @@ public class Table extends HtmlComponent {
             builder.append("</tr>");
         }
         return builder.toString();
+    }
+
+    private static class StringComponent extends HtmlComponent {
+        private final String component;
+
+        public StringComponent(String component) {
+            this.component = component;
+        }
+
+        @Override
+        protected String getTag() {
+            return null;
+        }
+
+        @Override
+        protected String getContent() {
+            return null;
+        }
+
+        @Override
+        public String getSyntax() {
+            return component;
+        }
     }
 }

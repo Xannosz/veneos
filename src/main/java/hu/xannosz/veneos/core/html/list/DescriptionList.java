@@ -1,7 +1,6 @@
 package hu.xannosz.veneos.core.html.list;
 
 import hu.xannosz.veneos.core.html.HtmlComponent;
-import hu.xannosz.veneos.core.html.StringHtmlComponent;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,22 +8,22 @@ import java.util.Map.Entry;
 
 public class DescriptionList extends HtmlComponent {
 
-    private Map<HtmlComponent, HtmlComponent> components = new HashMap<>();
+    private final Map<HtmlComponent, HtmlComponent> components = new HashMap<>();
 
     public void add(HtmlComponent title, HtmlComponent description) {
         components.put(title, description);
     }
 
     public void add(String title, HtmlComponent description) {
-        add(new StringHtmlComponent(title), description);
+        add(new StringComponent(title), description);
     }
 
     public void add(HtmlComponent title, String description) {
-        add(title, new StringHtmlComponent(description));
+        add(title, new StringComponent(description));
     }
 
     public void add(String title, String description) {
-        add(new StringHtmlComponent(title), new StringHtmlComponent(description));
+        add(new StringComponent(title), new StringComponent(description));
     }
 
     @Override
@@ -45,4 +44,26 @@ public class DescriptionList extends HtmlComponent {
         return builder.toString();
     }
 
+    private static class StringComponent extends HtmlComponent {
+        private final String component;
+
+        public StringComponent(String component) {
+            this.component = component;
+        }
+
+        @Override
+        protected String getTag() {
+            return null;
+        }
+
+        @Override
+        protected String getContent() {
+            return null;
+        }
+
+        @Override
+        public String getSyntax() {
+            return component;
+        }
+    }
 }

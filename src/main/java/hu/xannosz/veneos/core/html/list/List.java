@@ -1,14 +1,13 @@
 package hu.xannosz.veneos.core.html.list;
 
 import hu.xannosz.veneos.core.html.HtmlComponent;
-import hu.xannosz.veneos.core.html.StringHtmlComponent;
 
 import java.util.ArrayList;
 
 public class List extends HtmlComponent {
 
-    private ListType type;
-    private java.util.List<HtmlComponent> components = new ArrayList<>();
+    private final ListType type;
+    private final java.util.List<HtmlComponent> components = new ArrayList<>();
 
     public List(ListType type) {
         this.type = type;
@@ -19,7 +18,7 @@ public class List extends HtmlComponent {
     }
 
     public void add(String component) {
-        components.add(new StringHtmlComponent(component));
+        components.add(new StringComponent(component));
     }
 
     @Override
@@ -43,5 +42,28 @@ public class List extends HtmlComponent {
 
     public enum ListType {
         OL, UL
+    }
+
+    private static class StringComponent extends HtmlComponent {
+        private final String component;
+
+        public StringComponent(String component) {
+            this.component = component;
+        }
+
+        @Override
+        protected String getTag() {
+            return null;
+        }
+
+        @Override
+        protected String getContent() {
+            return null;
+        }
+
+        @Override
+        public String getSyntax() {
+            return component;
+        }
     }
 }

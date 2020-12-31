@@ -1,8 +1,8 @@
 package hu.xannosz.veneos.core.html.box;
 
+import hu.xannosz.veneos.core.html.AbstractBox;
 import hu.xannosz.veneos.core.html.HtmlComponent;
 import hu.xannosz.veneos.core.html.InlineComponent;
-import hu.xannosz.veneos.core.html.StringHtmlComponent;
 
 public class Details extends AbstractBox {
 
@@ -22,11 +22,11 @@ public class Details extends AbstractBox {
     private static class Summary extends InlineComponent {
 
         public Summary(String summary) {
-            element = new StringHtmlComponent(summary);
+            super(summary);
         }
 
         public Summary(HtmlComponent summary) {
-            element = summary;
+            super(summary);
         }
 
         @Override
