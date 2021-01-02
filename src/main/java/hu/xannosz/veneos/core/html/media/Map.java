@@ -5,7 +5,7 @@ import hu.xannosz.veneos.core.html.AbstractBox;
 public class Map extends AbstractBox {
 
     public Map(String name) {
-        meta.put("name", name);
+        putMeta("name", name);
     }
 
     @Override

@@ -5,8 +5,8 @@ import hu.xannosz.veneos.core.html.SingleHtmlComponent;
 public class Param extends SingleHtmlComponent {
 
     public Param(String name, String value) {
-        meta.put("name", name);
-        meta.put("value", value);
+        putMeta("name", name);
+        putMeta("value", value);
     }
 
     @Override

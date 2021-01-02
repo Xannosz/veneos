@@ -36,6 +36,10 @@ public class Page {
         head.addTheme(theme);
     }
 
+    public void addMetaTag(String name, String content) {
+        head.addMetaTag(name, content);
+    }
+
     public void addScript(String script) {
         head.addScript(script);
     }
@@ -45,6 +49,10 @@ public class Page {
     }
 
     public void addComponent(HtmlComponent component) {
+        body.add(component);
+    }
+
+    public void addComponent(String component) {
         body.add(component);
     }
 

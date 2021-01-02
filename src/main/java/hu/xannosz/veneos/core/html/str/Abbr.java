@@ -7,12 +7,12 @@ public class Abbr extends InlineComponent {
 
     public Abbr(String title, HtmlComponent element) {
         super(element);
-        meta.put("title", title);
+        putMeta("title", title);
     }
 
     public Abbr(String title, String element) {
         super(element);
-        meta.put("title", title);
+        putMeta("title", title);
     }
 
     @Override

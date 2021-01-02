@@ -7,12 +7,12 @@ public class Option extends InlineComponent {
 
     public Option(String value, HtmlComponent element) {
         super(element);
-        meta.put("value", value);
+        putMeta("value", value);
     }
 
     public Option(String value, String element) {
         super(element);
-        meta.put("value", value);
+        putMeta("value", value);
     }
 
     @Override

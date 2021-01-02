@@ -5,22 +5,19 @@ import hu.xannosz.veneos.core.html.SingleHtmlComponent;
 public class Img extends SingleHtmlComponent {
 
     public Img(String src) {
-        meta.put("src", src);
+        putMeta("src", src);
     }
 
     public Img setAlt(String alt) {
-        meta.put("alt", alt);
-        return this;
+        return  (Img)  putMeta("alt", alt);
     }
 
     public Img setHeight(String height) {
-        meta.put("height", height);
-        return this;
+        return  (Img)   putMeta("height", height);
     }
 
     public Img setWidth(String width) {
-        meta.put("width", width);
-        return this;
+        return  (Img)  putMeta("width", width);
     }
 
     @Override

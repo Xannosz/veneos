@@ -6,37 +6,11 @@ import java.util.ArrayList;
 
 public class Table extends HtmlComponent {
 
-    private final java.util.List<java.util.List<HtmlComponent>> rows = new ArrayList<>();
-    private java.util.List<HtmlComponent> actualRow = new ArrayList<>();
-    private final java.util.List<HtmlComponent> headRow = new ArrayList<>();
     private final java.util.List<Col> cols = new ArrayList<>();
     private HtmlComponent caption = new StringComponent("");
-
-    public Table newRow() {
-        if (!actualRow.isEmpty()) {
-            rows.add(actualRow);
-            actualRow = new ArrayList<>();
-        }
-        return this;
-    }
-
-    public Table add(HtmlComponent component) {
-        actualRow.add(component);
-        return this;
-    }
-
-    public Table add(String component) {
-        return add(new StringComponent(component));
-    }
-
-    public Table addHead(HtmlComponent component) {
-        headRow.add(component);
-        return this;
-    }
-
-    public Table addHead(String component) {
-        return addHead(new StringComponent(component));
-    }
+    private final TableComponent head = new TableComponent("thead", "th");
+    private final TableComponent body = new TableComponent("tbody");
+    private final TableComponent footer = new TableComponent("tfoot");
 
     public Table setCaption(HtmlComponent component) {
         caption = component;
@@ -52,6 +26,51 @@ public class Table extends HtmlComponent {
         return this;
     }
 
+    public Table newRow() {
+        body.newRow();
+        return this;
+    }
+
+    public Table addCell(HtmlComponent component) {
+        body.add(component);
+        return this;
+    }
+
+    public Table addCell(String component) {
+        body.add(component);
+        return this;
+    }
+
+    public Table newHeadRow() {
+        head.newRow();
+        return this;
+    }
+
+    public Table addHeadCell(HtmlComponent component) {
+        head.add(component);
+        return this;
+    }
+
+    public Table addHeadCell(String component) {
+        head.add(component);
+        return this;
+    }
+
+    public Table newFootRow() {
+        footer.newRow();
+        return this;
+    }
+
+    public Table addFootCell(HtmlComponent component) {
+        footer.add(component);
+        return this;
+    }
+
+    public Table addFootCell(String component) {
+        footer.add(component);
+        return this;
+    }
+
     @Override
     protected String getTag() {
         return "table";
@@ -59,7 +78,6 @@ public class Table extends HtmlComponent {
 
     @Override
     protected String getContent() {
-        newRow();
         StringBuilder builder = new StringBuilder();
         builder.append("<caption>");
         builder.append(caption.getSyntax());
@@ -71,22 +89,9 @@ public class Table extends HtmlComponent {
             }
             builder.append("</colgroup>");
         }
-        builder.append("<tr>");
-        for (HtmlComponent comp : headRow) {
-            builder.append("<th>");
-            builder.append(comp.getSyntax());
-            builder.append("</th>");
-        }
-        builder.append("</tr>");
-        for (java.util.List<HtmlComponent> row : rows) {
-            builder.append("<tr>");
-            for (HtmlComponent comp : row) {
-                builder.append("<td>");
-                builder.append(comp.getSyntax());
-                builder.append("</td>");
-            }
-            builder.append("</tr>");
-        }
+        builder.append(head.getSyntax());
+        builder.append(body.getSyntax());
+        builder.append(footer.getSyntax());
         return builder.toString();
     }
 

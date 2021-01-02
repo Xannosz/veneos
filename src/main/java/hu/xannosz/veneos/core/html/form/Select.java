@@ -5,7 +5,7 @@ import hu.xannosz.veneos.core.html.AbstractBox;
 public class Select extends AbstractBox {
 
     public Select(String name) {
-        meta.put("name", name);
+        putMeta("name", name);
     }
 
     @Override

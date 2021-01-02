@@ -5,7 +5,11 @@ import hu.xannosz.veneos.core.html.AbstractBox;
 public class Object extends AbstractBox {
 
     public Object(String data) {
-        meta.put("data", data);
+        putMeta("data", data);
+    }
+
+    public Object setType(String type) {
+        return (Object) putMeta("type", type);
     }
 
     @Override

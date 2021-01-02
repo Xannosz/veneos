@@ -9,11 +9,11 @@ public abstract class HtmlComponent {
 
     private HtmlID id;
 
-    protected final java.util.List<HtmlClass> clazzes = new ArrayList<>();
+    private final java.util.List<HtmlClass> clazzes = new ArrayList<>();
 
-    protected final java.util.List<String> metaList = new ArrayList<>();
+    private final java.util.List<String> metaList = new ArrayList<>();
 
-    protected final Map<String, String> meta = new HashMap<>();
+    private final Map<String, String> meta = new HashMap<>();
 
     protected abstract String getTag();
 
@@ -61,6 +61,20 @@ public abstract class HtmlComponent {
         } else {
             return "";
         }
+    }
+
+    public HtmlComponent putMeta(String name, int value) {
+        return putMeta(name, "" + value);
+    }
+
+    public HtmlComponent putMeta(String name, String value) {
+        meta.put(name, value);
+        return this;
+    }
+
+    public HtmlComponent addMeta(String name) {
+        metaList.add(name);
+        return this;
     }
 
     public HtmlID getID() {

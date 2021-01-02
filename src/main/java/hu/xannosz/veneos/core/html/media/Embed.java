@@ -5,8 +5,8 @@ import hu.xannosz.veneos.core.html.SingleHtmlComponent;
 public class Embed extends SingleHtmlComponent {
 
     public Embed(String type, String src) {
-        meta.put("type", type);
-        meta.put("src", src);
+        putMeta("type", type);
+        putMeta("src", src);
     }
 
     @Override

@@ -4,8 +4,8 @@ import hu.xannosz.veneos.core.html.AbstractBox;
 
 public class Audio extends AbstractBox {
 
-    public void addControls() {
-        metaList.add("controls");
+    public Audio addControls() {
+        return (Audio) addMeta("controls");
     }
 
     @Override

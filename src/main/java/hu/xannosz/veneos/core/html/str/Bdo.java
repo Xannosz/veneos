@@ -7,12 +7,12 @@ public class Bdo extends InlineComponent {
 
     public Bdo(Dir dir, String element) {
         super(element);
-        meta.put("dir", dir.toString().toLowerCase());
+        putMeta("dir", dir.toString().toLowerCase());
     }
 
     public Bdo(Dir dir, HtmlComponent element) {
         super(element);
-        meta.put("dir", dir.toString().toLowerCase());
+        putMeta("dir", dir.toString().toLowerCase());
     }
 
     @Override

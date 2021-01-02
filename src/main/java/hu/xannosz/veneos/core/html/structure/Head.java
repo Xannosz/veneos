@@ -5,7 +5,9 @@ import hu.xannosz.veneos.core.html.HtmlComponent;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 public class Head extends HtmlComponent {
@@ -22,6 +24,11 @@ public class Head extends HtmlComponent {
     private Base base;
     @Setter
     private Theme style;
+    private final Map<String, String> metaTags = new HashMap<>();
+
+    public void addMetaTag(String name, String content) {
+        metaTags.put(name, content);
+    }
 
     public void addTheme(Theme theme) {
         themes.add(theme);
@@ -50,7 +57,7 @@ public class Head extends HtmlComponent {
     }
 
     private String getStyleSyntax() {
-        return "<style>" + style.getSyntax() + "</style>";
+        return (style == null ? "" : "<style>" + style.getSyntax() + "</style>");
     }
 
     public void setAutoRefresh(int refreshTime) {
@@ -78,6 +85,14 @@ public class Head extends HtmlComponent {
         return "<meta http-equiv=\"refresh\" content=\"" + refreshTime + "\">";
     }
 
+    private String getMetaTagsSyntax() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Map.Entry<String, String> metaTag : metaTags.entrySet()) {
+            stringBuilder.append("<meta name=\"").append(metaTag.getKey()).append("\"  content=\"").append(metaTag.getValue()).append("\">");
+        }
+        return stringBuilder.toString();
+    }
+
     @Override
     protected String getTag() {
         return "head";
@@ -86,6 +101,6 @@ public class Head extends HtmlComponent {
     @Override
     protected String getContent() {
         return getCharsetSyntax() + getRefreshSyntax() + getTitleSyntax() + getThemeSyntax()
-                + getScriptSyntax() + base.getSyntax() + getStyleSyntax();
+                + getScriptSyntax() + (base == null ? "" : base.getSyntax()) + getStyleSyntax() + getMetaTagsSyntax();
     }
 }

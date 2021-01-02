@@ -1,21 +1,20 @@
 package hu.xannosz.veneos.core.html.str;
 
 import hu.xannosz.veneos.core.html.HtmlComponent;
+import hu.xannosz.veneos.core.html.InlineComponent;
 
-public class H extends HtmlComponent {
+public class H extends InlineComponent {
 
     private final int num;
-    private final String header;
 
     public H(int num, String header) {
-        if (num < 1) {
-            this.num = 1;
-        } else if (num > 6) {
-            this.num = 6;
-        } else {
-            this.num = num;
-        }
-        this.header = header;
+        super(header);
+        this.num = getNum(num);
+    }
+
+    public H(int num, HtmlComponent header) {
+        super(header);
+        this.num = getNum(num);
     }
 
     @Override
@@ -23,8 +22,9 @@ public class H extends HtmlComponent {
         return "h" + num;
     }
 
-    @Override
-    protected String getContent() {
-        return header;
+    private static int getNum(int num) {
+        if (num < 1) {
+            return 1;
+        } else return Math.min(num, 6);
     }
 }

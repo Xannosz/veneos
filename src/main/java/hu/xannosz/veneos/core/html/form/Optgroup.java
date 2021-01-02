@@ -5,7 +5,7 @@ import hu.xannosz.veneos.core.html.AbstractBox;
 public class Optgroup extends AbstractBox {
 
     public Optgroup(String label) {
-        meta.put("label", label);
+        putMeta("label", label);
     }
 
     @Override

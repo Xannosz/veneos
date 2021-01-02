@@ -6,12 +6,12 @@ import hu.xannosz.veneos.core.html.InlineComponent;
 
 public class Details extends AbstractBox {
 
-    public void addSummary(String summary) {
-        add(new Summary(summary));
+    public Details addSummary(String summary) {
+        return (Details) add(new Summary(summary));
     }
 
-    public void addSummary(HtmlComponent summary) {
-        add(new Summary(summary));
+    public Details addSummary(HtmlComponent summary) {
+        return (Details) add(new Summary(summary));
     }
 
     @Override

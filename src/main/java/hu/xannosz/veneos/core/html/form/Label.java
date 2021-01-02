@@ -7,12 +7,12 @@ public class Label extends InlineComponent {
 
     public Label(String for_, HtmlComponent element) {
         super(element);
-        meta.put("for", for_);
+        putMeta("for", for_);
     }
 
     public Label(String for_, String element) {
         super(element);
-        meta.put("for", for_);
+        putMeta("for", for_);
     }
 
     @Override

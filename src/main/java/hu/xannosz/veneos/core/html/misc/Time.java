@@ -3,23 +3,20 @@ package hu.xannosz.veneos.core.html.misc;
 import hu.xannosz.veneos.core.html.HtmlComponent;
 import hu.xannosz.veneos.core.html.InlineComponent;
 
-public class Dialog extends InlineComponent {
+public class Time extends InlineComponent {
 
-    public Dialog(String element) {
+    public Time(String datetime, String element) {
         super(element);
+        putMeta("datetime", datetime);
     }
 
-    public Dialog(HtmlComponent element) {
+    public Time(String datetime, HtmlComponent element) {
         super(element);
-    }
-
-    public Dialog setOpen() {
-        return (Dialog) addMeta("open");
+        putMeta("datetime", datetime);
     }
 
     @Override
     protected String getTag() {
-        return "dialog";
+        return "time";
     }
-
 }

@@ -7,12 +7,12 @@ public class Data extends InlineComponent {
 
     public Data(String value, String element) {
         super(element);
-        meta.put("value", value);
+        putMeta("value", value);
     }
 
     public Data(String value, HtmlComponent element) {
         super(element);
-        meta.put("value", value);
+        putMeta("value", value);
     }
 
     @Override

@@ -10,20 +10,24 @@ public class DescriptionList extends HtmlComponent {
 
     private final Map<HtmlComponent, HtmlComponent> components = new HashMap<>();
 
-    public void add(HtmlComponent title, HtmlComponent description) {
+    public DescriptionList add(HtmlComponent title, HtmlComponent description) {
         components.put(title, description);
+        return this;
     }
 
-    public void add(String title, HtmlComponent description) {
+    public DescriptionList add(String title, HtmlComponent description) {
         add(new StringComponent(title), description);
+        return this;
     }
 
-    public void add(HtmlComponent title, String description) {
+    public DescriptionList add(HtmlComponent title, String description) {
         add(title, new StringComponent(description));
+        return this;
     }
 
-    public void add(String title, String description) {
+    public DescriptionList add(String title, String description) {
         add(new StringComponent(title), new StringComponent(description));
+        return this;
     }
 
     @Override

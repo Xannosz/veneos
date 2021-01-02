@@ -4,9 +4,9 @@ import hu.xannosz.veneos.core.html.SingleHtmlComponent;
 
 public class TextArea extends SingleHtmlComponent {
     public TextArea(String name, int rows, int cols) {
-        meta.put("name", name);
-        meta.put("rows", "" + rows);
-        meta.put("cols", "" + cols);
+        putMeta("name", name);
+        putMeta("rows", "" + rows);
+        putMeta("cols", "" + cols);
     }
 
     @Override

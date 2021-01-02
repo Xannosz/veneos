@@ -5,10 +5,10 @@ import hu.xannosz.veneos.core.html.SingleHtmlComponent;
 public class Area extends SingleHtmlComponent {
 
     public Area(String shape, String coords, String href, String alt) {
-        meta.put("shape", shape);
-        meta.put("coords", coords);
-        meta.put("href", href);
-        meta.put("alt", alt);
+        putMeta("shape", shape);
+        putMeta("coords", coords);
+        putMeta("href", href);
+        putMeta("alt", alt);
     }
 
     @Override

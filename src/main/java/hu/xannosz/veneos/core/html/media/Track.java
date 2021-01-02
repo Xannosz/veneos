@@ -4,11 +4,11 @@ import hu.xannosz.veneos.core.html.SingleHtmlComponent;
 
 public class Track extends SingleHtmlComponent {
 
-    public Track(String src, String kind, String srclang, String label) {
-        meta.put("src", src);
-        meta.put("kind", kind);
-        meta.put("srclang", srclang);
-        meta.put("label", label);
+    public Track(String src, String kind, String srcLang, String label) {
+        putMeta("src", src);
+        putMeta("kind", kind);
+        putMeta("srclang", srcLang);
+        putMeta("label", label);
     }
 
     @Override

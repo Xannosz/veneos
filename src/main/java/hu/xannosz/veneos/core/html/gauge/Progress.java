@@ -4,9 +4,9 @@ import hu.xannosz.veneos.core.html.HtmlComponent;
 
 public class Progress extends HtmlComponent {
 
-    public Progress(String value, String max) {
-        meta.put("value", value);
-        meta.put("max", max);
+    public Progress(int value, int max) {
+        putMeta("value", value);
+        putMeta("max", max);
     }
 
     @Override

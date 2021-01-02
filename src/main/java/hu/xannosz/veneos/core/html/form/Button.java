@@ -7,16 +7,16 @@ public class Button extends InlineComponent {
 
     public Button(HtmlComponent element) {
         super(element);
-        meta.put("type", "button");
+        putMeta("type", "button");
     }
 
     public Button(String element) {
         super(element);
-        meta.put("type", "button");
+        putMeta("type", "button");
     }
 
-    public void setSubmit() {
-        meta.put("type", "submit");
+    public Button setSubmit() {
+        return (Button) putMeta("type", "submit");
     }
 
     @Override

@@ -4,16 +4,20 @@ import hu.xannosz.veneos.core.html.AbstractBox;
 
 public class Video extends AbstractBox {
 
-    public void setHeight(String height) {
-        meta.put("height", height);
+    public Video setHeight(int height) {
+        return (Video) putMeta("height", height);
     }
 
-    public void setWidth(String width) {
-        meta.put("width", width);
+    public Video setWidth(int width) {
+        return (Video) putMeta("width", width);
     }
 
-    public void addControls() {
-        metaList.add("controls");
+    public Video setSrc(String src) {
+        return (Video) putMeta("src", src);
+    }
+
+    public Video addControls() {
+        return (Video) addMeta("controls");
     }
 
     @Override

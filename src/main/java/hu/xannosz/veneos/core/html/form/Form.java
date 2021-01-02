@@ -8,10 +8,10 @@ public class Form extends AbstractBox {
 
     public Form(String action, boolean useOnClick) {
         if (useOnClick) {
-            meta.put("onclick", action);
+            putMeta("onclick", action);
         } else {
-            meta.put("action", action);
-            meta.put("method", "post");
+            putMeta("action", action);
+            putMeta("method", "post");
         }
     }
 

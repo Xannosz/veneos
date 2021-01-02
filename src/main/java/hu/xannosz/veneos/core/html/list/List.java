@@ -13,12 +13,14 @@ public class List extends HtmlComponent {
         this.type = type;
     }
 
-    public void add(HtmlComponent component) {
+    public List add(HtmlComponent component) {
         components.add(component);
+        return this;
     }
 
-    public void add(String component) {
+    public List add(String component) {
         components.add(new StringComponent(component));
+        return this;
     }
 
     @Override

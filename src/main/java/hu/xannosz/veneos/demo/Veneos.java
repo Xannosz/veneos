@@ -108,9 +108,11 @@ public class Veneos implements HttpHandler {
                 Page page = new Page();
                 page.addComponent(new P("lorum ipsum"));
                 page.addComponent(new Redirect("/normal", 5000, page));
-                return new Douplet<Integer, Page>(200, page);
+                return new Douplet<>(200, page);
+            case "/default":
+                return new Douplet<>(200, DefaultHtmlPage.createDefaultHtmlPage());
             default:
-                return new Douplet<Integer, Page>(404, error);
+                return new Douplet<>(404, error);
         }
 
     }

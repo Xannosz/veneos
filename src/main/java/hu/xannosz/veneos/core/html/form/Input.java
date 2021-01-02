@@ -5,15 +5,15 @@ import hu.xannosz.veneos.core.html.SingleHtmlComponent;
 public class Input extends SingleHtmlComponent {
 
     public Input(String type) {
-        meta.put("type", type);
+        putMeta("type", type);
     }
 
-    public void setName(String name) {
-        meta.put("name", name);
+    public Input setName(String name) {
+        return (Input) putMeta("name", name);
     }
 
-    public void setValue(String value) {
-        meta.put("value", value);
+    public Input setValue(String value) {
+        return (Input) putMeta("value", value);
     }
 
     @Override

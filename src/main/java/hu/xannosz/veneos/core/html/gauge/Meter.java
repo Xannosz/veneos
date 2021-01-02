@@ -5,28 +5,29 @@ import hu.xannosz.veneos.core.html.InlineComponent;
 
 public class Meter extends InlineComponent {
 
-    public Meter(String element, String value) {
+    public Meter(String element, int value) {
         super(element);
-        meta.put("value", value);
+        putMeta("value", value);
     }
 
-    public Meter(HtmlComponent element, String value) {
+    public Meter(HtmlComponent element, int value) {
         super(element);
-        meta.put("value", value);
+        putMeta("value", value);
     }
 
-    public Meter(String element, String value, String min, String max) {
-        super(element);
-        meta.put("value", value);
-        meta.put("min", min);
-        meta.put("max", max);
+    public Meter setMin(int min){
+        putMeta("min", min);
+        return this;
     }
 
-    public Meter(HtmlComponent element, String value, String min, String max) {
-        super(element);
-        meta.put("value", value);
-        meta.put("min", min);
-        meta.put("max", max);
+    public Meter setMax(int max){
+        putMeta("max", max);
+        return this;
+    }
+
+    public Meter setOptimum(int optimum){
+        putMeta("optimum", optimum);
+        return this;
     }
 
     @Override

@@ -7,12 +7,16 @@ public class A extends InlineComponent {
 
     public A(String href, HtmlComponent element) {
         super(element);
-        meta.put("href", href);
+        putMeta("href", href);
     }
 
     public A(String href, String element) {
         super(element);
-        meta.put("href", href);
+        putMeta("href", href);
+    }
+
+    public A setTarget(String target) {
+        return (A) putMeta("target", target);
     }
 
     @Override

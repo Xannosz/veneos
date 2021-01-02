@@ -5,8 +5,8 @@ import hu.xannosz.veneos.core.html.HtmlComponent;
 public class Svg extends HtmlComponent {
 
     public Svg(int width, int height) {
-        meta.put("width", "" + width);
-        meta.put("height", "" + height);
+        putMeta("width", "" + width);
+        putMeta("height", "" + height);
     }
 
     private final StringBuilder builder = new StringBuilder();

@@ -1,16 +1,16 @@
 package hu.xannosz.veneos.core.html.str;
 
+import hu.xannosz.veneos.core.html.AbstractBox;
 import hu.xannosz.veneos.core.html.HtmlComponent;
-import hu.xannosz.veneos.core.html.InlineComponent;
 
-public class P extends InlineComponent {
+public class P extends AbstractBox {
 
     public P(String element) {
-        super(element);
+        add(element);
     }
 
     public P(HtmlComponent element) {
-        super(element);
+        add(element);
     }
 
     @Override
