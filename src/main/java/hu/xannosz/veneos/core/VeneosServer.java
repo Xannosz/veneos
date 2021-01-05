@@ -1,9 +1,6 @@
 package hu.xannosz.veneos.core;
 
-import com.sun.net.httpserver.Headers;
-import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
-import com.sun.net.httpserver.HttpServer;
+import com.sun.net.httpserver.*;
 import hu.xannosz.microtools.pack.Douplet;
 import hu.xannosz.veneos.core.css.Theme;
 import hu.xannosz.veneos.core.handler.DefaultLogHandler;
@@ -16,9 +13,11 @@ import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.io.IOUtils;
 
+import javax.net.ssl.*;
 import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.URLDecoder;
+import java.security.KeyStore;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,11 +31,20 @@ public class VeneosServer {
     @Getter
     @Setter
     private String encoding = "UTF-8";
+    @Setter
+    private File keyStore;
+    @Setter
+    private String keyStorePassword;
 
     public void createServer(int port) {
         HttpServer server;
         try {
-            server = HttpServer.create(new InetSocketAddress(port), 0);
+            if (keyStorePassword != null) {
+                server = HttpsServer.create(new InetSocketAddress(port), 0);
+                createSSLContext((HttpsServer) server);
+            } else {
+                server = HttpServer.create(new InetSocketAddress(port), 0);
+            }
             server.createContext("/", new MainHandler());
             server.createContext("/files", new FileHandler());
             server.createContext("/css", new CSSHandler());
@@ -45,6 +53,48 @@ public class VeneosServer {
         } catch (Exception e) {
             logger.error(e);
         }
+    }
+
+    private void createSSLContext(HttpsServer httpsServer) throws Exception {
+        SSLContext sslContext = SSLContext.getInstance("TLS");
+
+        if (keyStore == null || !keyStore.exists()) {
+            logger.error("KeyStore " + keyStore + " doesn't exists.");
+        }
+
+        // initialise the keystore
+        char[] password = keyStorePassword.toCharArray();
+        KeyStore ks = KeyStore.getInstance("JKS");
+        ks.load(new FileInputStream(keyStore), password);
+
+        // setup the key manager factory
+        KeyManagerFactory kmf = KeyManagerFactory.getInstance("SunX509");
+        kmf.init(ks, password);
+
+        // setup the trust manager factory
+        TrustManagerFactory tmf = TrustManagerFactory.getInstance("SunX509");
+        tmf.init(ks);
+
+        // setup the HTTPS context and parameters
+        sslContext.init(kmf.getKeyManagers(), tmf.getTrustManagers(), null);
+        httpsServer.setHttpsConfigurator(new HttpsConfigurator(sslContext) {
+            public void configure(HttpsParameters params) {
+                try {
+                    // initialise the SSL context
+                    SSLContext context = getSSLContext();
+                    SSLEngine engine = context.createSSLEngine();
+                    params.setNeedClientAuth(false);
+                    params.setCipherSuites(engine.getEnabledCipherSuites());
+                    params.setProtocols(engine.getEnabledProtocols());
+
+                    // Set the SSL parameters
+                    SSLParameters sslParameters = context.getSupportedSSLParameters();
+                    params.setSSLParameters(sslParameters);
+                } catch (Exception ex) {
+                    logger.error("Failed to create HTTPS port.", ex);
+                }
+            }
+        });
     }
 
     public class MainHandler implements HttpHandler {
