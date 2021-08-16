@@ -47,7 +47,7 @@
 		<dependency>
 			<groupId>hu.xannosz</groupId>
 			<artifactId>microtools</artifactId>
-			<version>0.5.2</version>
+			<version>0.6.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>

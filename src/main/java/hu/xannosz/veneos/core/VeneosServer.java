@@ -1,6 +1,7 @@
 package hu.xannosz.veneos.core;
 
 import com.sun.net.httpserver.*;
+import hu.xannosz.microtools.Json;
 import hu.xannosz.microtools.pack.Douplet;
 import hu.xannosz.veneos.core.css.Theme;
 import hu.xannosz.veneos.core.handler.DefaultLogHandler;
@@ -17,9 +18,11 @@ import javax.net.ssl.*;
 import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.security.KeyStore;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @SuppressWarnings("restriction")
 public class VeneosServer {
@@ -48,6 +51,7 @@ public class VeneosServer {
             server.createContext("/", new MainHandler());
             server.createContext("/files", new FileHandler());
             server.createContext("/css", new CSSHandler());
+            server.createContext("/internal", new InternalHandler());
             server.setExecutor(null);
             server.start();
         } catch (Exception e) {
@@ -190,6 +194,21 @@ public class VeneosServer {
             os.write(bytearray, 0, bytearray.length);
             os.close();
             bis.close();
+        }
+    }
+
+    static class InternalHandler implements HttpHandler {
+        public void handle(HttpExchange t)  {
+            String[] tags = t.getRequestURI().getPath().split("/", 3);
+            String id = tags[tags.length - 1];
+
+            String requestBody = new BufferedReader(
+                    new InputStreamReader(t.getRequestBody(), StandardCharsets.UTF_8))
+                    .lines()
+                    .collect(Collectors.joining("\n"));
+            
+
+
         }
     }
 }
