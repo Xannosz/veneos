@@ -21,7 +21,7 @@ import java.util.Map;
 
 public class Veneos implements HttpHandler {
 
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args)   {
         VeneosServer server = new VeneosServer();
         server.createServer(8000);
         server.setHandler(new Veneos());

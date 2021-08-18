@@ -10,6 +10,8 @@ import hu.xannosz.veneos.core.handler.HttpHandler.RequestMethod;
 import hu.xannosz.veneos.core.handler.LogHandler;
 import hu.xannosz.veneos.core.handler.ThemeHandler;
 import hu.xannosz.veneos.core.html.structure.Page;
+import hu.xannosz.veneos.trie.RequestBody;
+import hu.xannosz.veneos.trie.TryHandler;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.io.IOUtils;
@@ -29,6 +31,8 @@ public class VeneosServer {
 
     @Setter
     private hu.xannosz.veneos.core.handler.HttpHandler handler;
+    @Setter
+    private TryHandler tryHandler;
     @Setter
     private LogHandler logger = new DefaultLogHandler();
     @Getter
@@ -106,6 +110,7 @@ public class VeneosServer {
             Douplet<Integer, Page> response = handler.getResponse(
                     t.getRequestMethod().equals("GET") ? RequestMethod.GET : RequestMethod.POST,
                     t.getRequestURI().getPath(), getRequestMap(t.getRequestBody()));
+
             response.getSecond().setCharset(encoding);
             String syntax = "";
             try {
@@ -173,7 +178,7 @@ public class VeneosServer {
         }
     }
 
-    static class FileHandler implements HttpHandler {
+    public static class FileHandler implements HttpHandler {
         public void handle(HttpExchange t) throws IOException {
             String[] tags = t.getRequestURI().getPath().split("/", 3);
             String id = tags[tags.length - 1];
@@ -197,18 +202,26 @@ public class VeneosServer {
         }
     }
 
-    static class InternalHandler implements HttpHandler {
-        public void handle(HttpExchange t)  {
+    public class InternalHandler implements HttpHandler {
+        public void handle(HttpExchange t) throws IOException {
+            System.out.println("###I" + t);
             String[] tags = t.getRequestURI().getPath().split("/", 3);
-            String id = tags[tags.length - 1];
-
             String requestBody = new BufferedReader(
                     new InputStreamReader(t.getRequestBody(), StandardCharsets.UTF_8))
                     .lines()
                     .collect(Collectors.joining("\n"));
-            
+            System.out.println("###I" + requestBody);
+            System.out.println("###I" + tags[tags.length - 1]);
+            Douplet<Integer,Page> refresh = tryHandler.handleRequest(tags[tags.length - 1], Json.readData(requestBody, RequestBody.class));
 
-
+            Douplet<Integer, String> response = new Douplet<>(refresh.getFirst(),
+                    "{ \"refresh\": \"" + refresh.getSecond().getSyntax().replace("\"", "\\\"") + "\"}");
+            byte[] responseSyntax = response.getSecond().getBytes(encoding);
+            t.sendResponseHeaders(response.getFirst(), responseSyntax.length);
+            OutputStream os = t.getResponseBody();
+            os.write(responseSyntax);
+            os.flush();
+            os.close();
         }
     }
 }
