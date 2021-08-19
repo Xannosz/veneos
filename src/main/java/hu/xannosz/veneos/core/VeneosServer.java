@@ -11,6 +11,7 @@ import hu.xannosz.veneos.core.handler.LogHandler;
 import hu.xannosz.veneos.core.handler.ThemeHandler;
 import hu.xannosz.veneos.core.html.structure.Page;
 import hu.xannosz.veneos.trie.RequestBody;
+import hu.xannosz.veneos.trie.ResponseBody;
 import hu.xannosz.veneos.trie.TryHandler;
 import lombok.Getter;
 import lombok.Setter;
@@ -204,20 +205,15 @@ public class VeneosServer {
 
     public class InternalHandler implements HttpHandler {
         public void handle(HttpExchange t) throws IOException {
-            System.out.println("###I" + t);
-            String[] tags = t.getRequestURI().getPath().split("/", 3);
             String requestBody = new BufferedReader(
                     new InputStreamReader(t.getRequestBody(), StandardCharsets.UTF_8))
                     .lines()
                     .collect(Collectors.joining("\n"));
-            System.out.println("###I" + requestBody);
-            System.out.println("###I" + tags[tags.length - 1]);
-            Douplet<Integer,Page> refresh = tryHandler.handleRequest(tags[tags.length - 1], Json.readData(requestBody, RequestBody.class));
 
-            Douplet<Integer, String> response = new Douplet<>(refresh.getFirst(),
-                    "{ \"refresh\": \"" + refresh.getSecond().getSyntax().replace("\"", "\\\"") + "\"}");
-            byte[] responseSyntax = response.getSecond().getBytes(encoding);
-            t.sendResponseHeaders(response.getFirst(), responseSyntax.length);
+            ResponseBody responseBody = tryHandler.handleRequest(Json.readData(requestBody, RequestBody.class));
+
+            byte[] responseSyntax = Json.writeData(responseBody).getBytes(encoding);
+            t.sendResponseHeaders(200, responseSyntax.length);
             OutputStream os = t.getResponseBody();
             os.write(responseSyntax);
             os.flush();

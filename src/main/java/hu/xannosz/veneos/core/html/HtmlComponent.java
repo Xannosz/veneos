@@ -2,6 +2,7 @@ package hu.xannosz.veneos.core.html;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -9,7 +10,7 @@ public abstract class HtmlComponent {
 
     private HtmlID id;
 
-    private final java.util.List<HtmlClass> clazzes = new ArrayList<>();
+    private final java.util.Set<HtmlClass> clazzes = new HashSet<>();
 
     private final java.util.List<String> metaList = new ArrayList<>();
 

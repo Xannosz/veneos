@@ -7,6 +7,9 @@ import java.util.Map;
 @Data
 public class RequestBody {
     private String requestType;
-    private String componentId;
+
+    private String sessionId;
+    private String eventId;
+
     private Map<String,Object> additionalParams;
 }

@@ -3,17 +3,17 @@ package hu.xannosz.veneos.demo;
 import hu.xannosz.microtools.pack.Douplet;
 import hu.xannosz.veneos.core.VeneosServer;
 import hu.xannosz.veneos.core.handler.HttpHandler;
+import hu.xannosz.veneos.core.html.HtmlClass;
+import hu.xannosz.veneos.core.html.HtmlComponentBox;
 import hu.xannosz.veneos.core.html.box.Div;
 import hu.xannosz.veneos.core.html.str.P;
 import hu.xannosz.veneos.core.html.str.StringModifiers;
 import hu.xannosz.veneos.core.html.structure.Page;
-import hu.xannosz.veneos.trie.RequestBody;
-import hu.xannosz.veneos.trie.TryButton;
-import hu.xannosz.veneos.trie.TryHandler;
+import hu.xannosz.veneos.trie.*;
 
 import java.util.Map;
 
-public class Trie implements TryHandler, HttpHandler {
+public class Trie implements TryHandler {
 
     private static final String TOKEN = "tokenId";
 
@@ -22,29 +22,30 @@ public class Trie implements TryHandler, HttpHandler {
         server.createServer(8000);
         Trie trie = new Trie();
         server.setTryHandler(trie);
-        server.setHandler(trie);
+        server.setHandler(new DefaultTryHttpHandler());
     }
 
-    private Div component = new Div();
+    private final HtmlClass clazz = new HtmlClass();
 
     @Override
-    public Douplet<Integer, Page> handleRequest(String id, RequestBody body) {
-        component = new Div();
-        component.add("ID: " + id + StringModifiers.BR);
+    public ResponseBody handleRequest(RequestBody body) {
+        Div component = new Div();
+        component.add("ID: " + body.getSessionId() + StringModifiers.BR);
         component.add("RequestBody: " + body);
 
         Page normal = new Page();
         normal.addComponent(component);
-        return new Douplet<>(200, normal);
+
+        return new ResponseBody(new ResponseBody.ComponentStruct(clazz,component));
     }
 
-    @Override
-    public Douplet<Integer, Page> getResponse(RequestMethod requestMethod, String requestURI, Map<String, String> requestMap) {
+    public Douplet<Integer, Page> getResponse(HttpHandler.RequestMethod requestMethod, String requestURI, Map<String, String> requestMap) {
         Page normal = new Page();
+        Div component = new Div();
         normal.addComponent(new P("URL: " + requestURI));
-        normal.addComponent(new TryButton(TOKEN, "Send token"));
+        normal.addComponent(new TryButton("http://localhost:8000",TOKEN, "Send token"));
         normal.addComponent(new P("Component: "));
-        normal.addComponent(component);
+        normal.addComponent(component.addClass(clazz));
         return new Douplet<>(200, normal);
     }
 }
