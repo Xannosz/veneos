@@ -1,7 +1,5 @@
 package hu.xannosz.veneos.trie;
 
-import hu.xannosz.veneos.core.html.HtmlComponent;
-import hu.xannosz.veneos.core.html.structure.Page;
 import hu.xannosz.veneos.next.OneButtonForm;
 import hu.xannosz.veneos.util.Scripts;
 
@@ -13,14 +11,12 @@ public class TryButton extends OneButtonForm {
         super(action, element, true);
     }*/
 
-    public TryButton(String loopBackURI, String eventId, String element) {
-        this(loopBackURI,  eventId, new HashMap<>(), element);
+    public TryButton(String eventId, String element) {
+        this(eventId, new HashMap<>(), element);
     }
-    public TryButton(String loopBackURI, String eventId, Map<String, Object> additionalParams, String element) {
+    public TryButton(String eventId, Map<String, Object> additionalParams, String element) {
         super(Scripts.getScriptAsSelfExecutor(Scripts.getCallRestScript(
-                loopBackURI,  RequestTypes.BUTTON_TYPE,  eventId, additionalParams,
-                        ""
-                )),
+                RequestTypes.BUTTON_REQUEST,  eventId, additionalParams)),
                 element, true);
     }
 }

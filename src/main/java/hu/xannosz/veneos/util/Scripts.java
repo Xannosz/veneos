@@ -1,9 +1,14 @@
 package hu.xannosz.veneos.util;
 
+import hu.xannosz.microtools.FileResourcesUtils;
 import hu.xannosz.microtools.Json;
 import lombok.experimental.UtilityClass;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
+
+import static hu.xannosz.veneos.trie.RequestTypes.REFRESH_REQUEST;
 
 @UtilityClass
 public class Scripts {
@@ -12,10 +17,20 @@ public class Scripts {
         return "(function (){\n" + script + "\n})()";
     }
 
-    public static String getCallRestScript(String loopBackURI, String requestType, String eventId, Map<String, Object> additionalParams, String additionalScript) {
-        return "req = {};\n" +
+    public static String getCallRestScript(String requestType, String eventId) {
+        return getCallRestScript(requestType, eventId, new HashMap<>());
+    }
+
+    public static String getCallRestScript(String requestType, String eventId, Map<String, Object> additionalParams) {
+        return getCallRestScript(requestType, eventId, additionalParams, "");
+    }
+
+    public static String getCallRestScript(String requestType, String eventId, Map<String, Object> additionalParams, String additionalScript) {
+        return getCookieScript() +
+                "\n" +
+                "req = {};\n" +
                 "req.requestType = '" + requestType + "';\n" +
-                "req.sessionId = 'sessionId';\n" +
+                "req.sessionId = getCookie('veneosSessionID');\n" +
                 "req.eventId = '" + eventId + "';\n" +
                 "req.additionalParams = " + Json.writeData(additionalParams) + ";\n\n" +
 
@@ -29,7 +44,7 @@ public class Scripts {
                 "};" +
                 "data.body = JSON.stringify(req);\n" +
 
-                "const response = fetch('" + loopBackURI + "/internal', data).then(response => response.json()).then(data => {\n" +
+                "const response = fetch('/internal', data).then(response => response.json()).then(data => {\n" +
                 "    if(data.hasPage){\n" +
                 "      document.open();\n" +
                 "      document.write(data.page);\n" +
@@ -45,5 +60,22 @@ public class Scripts {
                 "      }\n" +
                 "    }\n" +
                 "  })\n";
+    }
+
+    public static String getCookieScript() {
+        return FileResourcesUtils.getFileFromResourceAsString("js/getCookie.js");
+    }
+
+    public static String getStarterScript() {
+        return "function loading() {\n" +
+                "    var veneosCookie = getCookie('veneosSessionID');\n" +
+                "    if (veneosCookie == '') {\n" +
+                "        document.cookie = 'veneosSessionID=veneosSessionID" +
+                ("" + UUID.randomUUID() + UUID.randomUUID() + UUID.randomUUID()).replace("-", "") +
+                "; path=/';\n" +
+                "    }\n" +
+                getCallRestScript(REFRESH_REQUEST, "veneosInternalRefresh") +
+                "\n}\n" +
+                "window.onload = loading;";
     }
 }
