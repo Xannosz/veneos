@@ -2,6 +2,7 @@ package hu.xannosz.veneos.util;
 
 import hu.xannosz.microtools.FileResourcesUtils;
 import hu.xannosz.microtools.Json;
+import hu.xannosz.veneos.trie.RequestTypes;
 import lombok.experimental.UtilityClass;
 
 import java.util.HashMap;
@@ -44,7 +45,8 @@ public class Scripts {
                 "};" +
                 "data.body = JSON.stringify(req);\n" +
 
-                "const response = fetch('/internal', data).then(response => response.json()).then(data => {\n" +
+                "const response = fetch('/internal', data).then(function(response) {\n" +
+                "  response.json().then(function(data) {\n" +
                 "    if(data.hasPage){\n" +
                 "      document.open();\n" +
                 "      document.write(data.page);\n" +
@@ -59,7 +61,8 @@ public class Scripts {
                 "        }\n" +
                 "      }\n" +
                 "    }\n" +
-                "  })\n";
+                "  });\n" +
+                "});\n";
     }
 
     public static String getCookieScript() {
@@ -77,5 +80,50 @@ public class Scripts {
                 getCallRestScript(REFRESH_REQUEST, "veneosInternalRefresh") +
                 "\n}\n" +
                 "window.onload = loading;";
+    }
+
+    public static String getKeyDownListenerScript(Map<String, Object> additionalParams) {
+        return "document.addEventListener('keydown', (event) => {\n" +
+                getCallRestScript(RequestTypes.KEY_STROKE_REQUEST, "keyDown", additionalParams,
+                        "req.additionalParams.event = {};\n" +
+                                "req.additionalParams.event.altKey = event.altKey;\n" +
+                                "req.additionalParams.event.ctrlKey = event.ctrlKey;\n" +
+                                "req.additionalParams.event.metaKey = event.metaKey;\n" +
+                                "req.additionalParams.event.shiftKey = event.shiftKey;\n" +
+                                "req.additionalParams.event.key = event.key;\n" +
+                                "req.additionalParams.event.code = event.code;\n" +
+                                "req.additionalParams.event.keyCode = event.keyCode;\n"
+                ) +
+                "}, false);";
+    }
+
+    public static String getKeyPressListenerScript(Map<String, Object> additionalParams) {
+        return "document.addEventListener('keypress', (event) => {\n" +
+                getCallRestScript(RequestTypes.KEY_STROKE_REQUEST, "keyPress", additionalParams,
+                        "req.additionalParams.event = {};\n" +
+                                "req.additionalParams.event.altKey = event.altKey;\n" +
+                                "req.additionalParams.event.ctrlKey = event.ctrlKey;\n" +
+                                "req.additionalParams.event.metaKey = event.metaKey;\n" +
+                                "req.additionalParams.event.shiftKey = event.shiftKey;\n" +
+                                "req.additionalParams.event.key = event.key;\n" +
+                                "req.additionalParams.event.code = event.code;\n" +
+                                "req.additionalParams.event.keyCode = event.keyCode;\n"
+                ) +
+                "}, false);";
+    }
+
+    public static String getKeyUpListenerScript(Map<String, Object> additionalParams) {
+        return "document.addEventListener('keyup', (event) => {\n" +
+                getCallRestScript(RequestTypes.KEY_STROKE_REQUEST, "keyUp", additionalParams,
+                        "req.additionalParams.event = {};\n" +
+                                "req.additionalParams.event.altKey = event.altKey;\n" +
+                                "req.additionalParams.event.ctrlKey = event.ctrlKey;\n" +
+                                "req.additionalParams.event.metaKey = event.metaKey;\n" +
+                                "req.additionalParams.event.shiftKey = event.shiftKey;\n" +
+                                "req.additionalParams.event.key = event.key;\n" +
+                                "req.additionalParams.event.code = event.code;\n" +
+                                "req.additionalParams.event.keyCode = event.keyCode;\n"
+                ) +
+                "}, false);";
     }
 }
