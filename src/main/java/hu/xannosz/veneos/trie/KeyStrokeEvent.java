@@ -7,7 +7,7 @@ import java.util.Map;
 
 @Data
 public class KeyStrokeEvent {
-    public static final String ADDITIONAL_PARAMS_KEY = "event";
+    public static final String ADDITIONAL_PARAMS_KEY = "keyStrokeEvent";
 
     private boolean altKey;
     private boolean ctrlKey;

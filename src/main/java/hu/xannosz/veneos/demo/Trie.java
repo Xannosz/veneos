@@ -19,9 +19,11 @@ public class Trie implements TryHandler {
     private static final String CHANGE_PAGE = "changePage";
     private static final String CHANGE_DIV = "changeDiv";
     private static final String CHANGE_RESET = "changeReset";
+    private static final String CHANGE_SNAKE = "changeToSnake";
 
     private static final String BASE_PAGE_ID = "basePageId";
     private static final String NEW_PAGE_ID = "newPageId";
+    private static final String SNAKE_PAGE_ID = "SnakePageId";
 
     private static final HtmlClass DIV_CLAZZ = new HtmlClass();
     private static final HtmlClass P_CLAZZ = new HtmlClass();
@@ -55,6 +57,9 @@ public class Trie implements TryHandler {
             if (data.getPageId().equals(NEW_PAGE_ID)) {
                 return new ResponseBody(createNewPage());
             }
+            if (data.getPageId().equals(SNAKE_PAGE_ID)) {
+                return new ResponseBody(createSnakePage());
+            }
         }
         if (body.getRequestType().equals(RequestTypes.BUTTON_REQUEST)) {
             if (body.getEventId().equals(CHANGE_PAGE)) {
@@ -70,8 +75,12 @@ public class Trie implements TryHandler {
                 data.setDivChanged(false);
                 return new ResponseBody(createMainPage(data, body));
             }
+            if (body.getEventId().equals(CHANGE_SNAKE)) {
+                data.setPageId(SNAKE_PAGE_ID);
+                return new ResponseBody(createSnakePage());
+            }
         }
-        if (body.getRequestType().equals(RequestTypes.KEY_STROKE_REQUEST)) {
+        if (body.getRequestType().equals(RequestTypes.KEY_STROKE_REQUEST)) { //TODO
             keyData = new P("");
             keyData.add("EventId: " + body.getEventId());
             KeyStrokeEvent keyStrokeEvent = KeyStrokeEvent.getFromMap(body.getAdditionalParams());
@@ -81,6 +90,13 @@ public class Trie implements TryHandler {
         }
 
         return new ResponseBody();
+    }
+
+    private Page createSnakePage() { //TODO
+        Page page = new Page();
+        page.addComponent(new P("This is snake page"));
+        page.addComponent(new TryButton(CHANGE_RESET, "Back"));
+        return page;
     }
 
     private static HtmlComponent createNewDiv(RequestBody body) {
@@ -95,9 +111,11 @@ public class Trie implements TryHandler {
     private Page createMainPage(SessionData data, RequestBody body) {
         Page page = new Page();
         page.addScript(Scripts.getKeyPressListenerScript(new HashMap<>()));
+        page.addScript(Scripts.getAutomaticRefreshScript(5000));
 
         page.addComponent(new TryButton(CHANGE_PAGE, "Change page"));
         page.addComponent(new TryButton(CHANGE_DIV, "Change div"));
+        page.addComponent(new TryButton(CHANGE_SNAKE, "Start snake"));
         page.addComponent(new P("Component: "));
 
         if (data.isDivChanged()) {

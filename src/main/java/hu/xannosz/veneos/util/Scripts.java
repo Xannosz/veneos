@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import static hu.xannosz.veneos.trie.KeyStrokeEvent.ADDITIONAL_PARAMS_KEY;
 import static hu.xannosz.veneos.trie.RequestTypes.REFRESH_REQUEST;
 
 @UtilityClass
@@ -82,47 +83,35 @@ public class Scripts {
                 "window.onload = loading;";
     }
 
+    public static String getAutomaticRefreshScript(int interval) {
+        return "setInterval(function() {\n" +
+                getCallRestScript(REFRESH_REQUEST, "veneosInternalRefresh") +
+                "\n}, " + interval + ");";
+    }
+
     public static String getKeyDownListenerScript(Map<String, Object> additionalParams) {
-        return "document.addEventListener('keydown', (event) => {\n" +
-                getCallRestScript(RequestTypes.KEY_STROKE_REQUEST, "keyDown", additionalParams,
-                        "req.additionalParams.event = {};\n" +
-                                "req.additionalParams.event.altKey = event.altKey;\n" +
-                                "req.additionalParams.event.ctrlKey = event.ctrlKey;\n" +
-                                "req.additionalParams.event.metaKey = event.metaKey;\n" +
-                                "req.additionalParams.event.shiftKey = event.shiftKey;\n" +
-                                "req.additionalParams.event.key = event.key;\n" +
-                                "req.additionalParams.event.code = event.code;\n" +
-                                "req.additionalParams.event.keyCode = event.keyCode;\n"
-                ) +
-                "}, false);";
+        return getKeyListenerScript("keydown", additionalParams);
     }
 
     public static String getKeyPressListenerScript(Map<String, Object> additionalParams) {
-        return "document.addEventListener('keypress', (event) => {\n" +
-                getCallRestScript(RequestTypes.KEY_STROKE_REQUEST, "keyPress", additionalParams,
-                        "req.additionalParams.event = {};\n" +
-                                "req.additionalParams.event.altKey = event.altKey;\n" +
-                                "req.additionalParams.event.ctrlKey = event.ctrlKey;\n" +
-                                "req.additionalParams.event.metaKey = event.metaKey;\n" +
-                                "req.additionalParams.event.shiftKey = event.shiftKey;\n" +
-                                "req.additionalParams.event.key = event.key;\n" +
-                                "req.additionalParams.event.code = event.code;\n" +
-                                "req.additionalParams.event.keyCode = event.keyCode;\n"
-                ) +
-                "}, false);";
+        return getKeyListenerScript("keypress", additionalParams);
     }
 
     public static String getKeyUpListenerScript(Map<String, Object> additionalParams) {
-        return "document.addEventListener('keyup', (event) => {\n" +
-                getCallRestScript(RequestTypes.KEY_STROKE_REQUEST, "keyUp", additionalParams,
-                        "req.additionalParams.event = {};\n" +
-                                "req.additionalParams.event.altKey = event.altKey;\n" +
-                                "req.additionalParams.event.ctrlKey = event.ctrlKey;\n" +
-                                "req.additionalParams.event.metaKey = event.metaKey;\n" +
-                                "req.additionalParams.event.shiftKey = event.shiftKey;\n" +
-                                "req.additionalParams.event.key = event.key;\n" +
-                                "req.additionalParams.event.code = event.code;\n" +
-                                "req.additionalParams.event.keyCode = event.keyCode;\n"
+        return getKeyListenerScript("keyup", additionalParams);
+    }
+
+    private static String getKeyListenerScript(String event, Map<String, Object> additionalParams) {
+        return "document.addEventListener('" + event + "', (event) => {\n" +
+                getCallRestScript(RequestTypes.KEY_STROKE_REQUEST, event, additionalParams,
+                        "req.additionalParams." + ADDITIONAL_PARAMS_KEY + " = {};\n" +
+                                "req.additionalParams." + ADDITIONAL_PARAMS_KEY + ".altKey = event.altKey;\n" +
+                                "req.additionalParams." + ADDITIONAL_PARAMS_KEY + ".ctrlKey = event.ctrlKey;\n" +
+                                "req.additionalParams." + ADDITIONAL_PARAMS_KEY + ".metaKey = event.metaKey;\n" +
+                                "req.additionalParams." + ADDITIONAL_PARAMS_KEY + ".shiftKey = event.shiftKey;\n" +
+                                "req.additionalParams." + ADDITIONAL_PARAMS_KEY + ".key = event.key;\n" +
+                                "req.additionalParams." + ADDITIONAL_PARAMS_KEY + ".code = event.code;\n" +
+                                "req.additionalParams." + ADDITIONAL_PARAMS_KEY + ".keyCode = event.keyCode;\n"
                 ) +
                 "}, false);";
     }
