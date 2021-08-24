@@ -84,7 +84,7 @@ public class Trie implements TryHandler {
             keyData = new P("");
             keyData.add("EventId: " + body.getEventId());
             KeyStrokeEvent keyStrokeEvent = KeyStrokeEvent.getFromMap(body.getAdditionalParams());
-            keyData.add(StringModifiers.BR+"Event: " + keyStrokeEvent);
+            keyData.add(StringModifiers.BR + "Event: " + keyStrokeEvent);
             keyData.addClass(P_CLAZZ);
             return new ResponseBody(new ResponseBody.ComponentStruct(P_CLAZZ, keyData));
         }
