@@ -9,15 +9,15 @@ public class Img extends SingleHtmlComponent {
     }
 
     public Img setAlt(String alt) {
-        return  (Img)  putMeta("alt", alt);
+        return (Img) putMeta("alt", alt);
     }
 
     public Img setHeight(String height) {
-        return  (Img)   putMeta("height", height);
+        return (Img) putMeta("height", height);
     }
 
     public Img setWidth(String width) {
-        return  (Img)  putMeta("width", width);
+        return (Img) putMeta("width", width);
     }
 
     @Override

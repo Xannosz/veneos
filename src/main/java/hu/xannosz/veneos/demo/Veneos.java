@@ -15,8 +15,6 @@ import hu.xannosz.veneos.core.html.table.Table;
 import hu.xannosz.veneos.next.*;
 import org.json.JSONObject;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.Map;
 
 public class Veneos implements HttpHandler {
@@ -34,9 +32,9 @@ public class Veneos implements HttpHandler {
 
     public Veneos() {
         FileContainer.addFile("kep1.png",
-                FileResourcesUtils.getFileFromResourceAsFile("kep.png"));
+                FileResourcesUtils.getFileFromResourceAsFile("demo/kep.png"));
         FileContainer.addFile("kep2",
-                FileResourcesUtils.getFileFromResourceAsFile("kep.png"));
+                FileResourcesUtils.getFileFromResourceAsFile("demo/kep.png"));
 
         normal.setTitle("Normal");
         normal.addComponent(getNav("Normal"));
