@@ -16,11 +16,9 @@ import hu.xannosz.veneos.trie.*;
 import hu.xannosz.veneos.util.Scripts;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 public class Trie implements TryHandler {
 
@@ -28,6 +26,7 @@ public class Trie implements TryHandler {
     private static final String CHANGE_DIV = "changeDiv";
     private static final String CHANGE_RESET = "changeReset";
     private static final String CHANGE_SNAKE = "changeToSnake";
+    private static final String RESET_SNAKE = "resetSnake";
 
     private static final String BASE_PAGE_ID = "basePageId";
     private static final String NEW_PAGE_ID = "newPageId";
@@ -96,31 +95,72 @@ public class Trie implements TryHandler {
                 data.setPageId(SNAKE_PAGE_ID);
                 return new ResponseBody(createSnakePage(data.getSnakeData()));
             }
+            if (body.getEventId().equals(RESET_SNAKE)) {
+                data.setSnakeData(new SnakeData());
+                return new ResponseBody(createSnakePage(data.getSnakeData()));
+            }
         }
-        if (body.getRequestType().equals(RequestTypes.KEY_STROKE_REQUEST)) { //TODO
-            keyData = new P("");
-            keyData.add("EventId: " + body.getEventId());
-            KeyStrokeEvent keyStrokeEvent = KeyStrokeEvent.getFromMap(body.getAdditionalParams());
-            keyData.add(StringModifiers.BR + "Event: " + keyStrokeEvent);
-            keyData.addClass(P_CLAZZ);
-            return new ResponseBody(new ResponseBody.ComponentStruct(P_CLAZZ, keyData));
+        if (body.getRequestType().equals(RequestTypes.KEY_STROKE_REQUEST)) {
+            if (data.getPageId().equals(SNAKE_PAGE_ID)) {
+                KeyStrokeEvent keyStrokeEvent = KeyStrokeEvent.getFromMap(body.getAdditionalParams());
+                data.getSnakeData().setDirection(keyStrokeEvent.getCode());
+            } else {
+                keyData = new P("");
+                keyData.add("EventId: " + body.getEventId());
+                KeyStrokeEvent keyStrokeEvent = KeyStrokeEvent.getFromMap(body.getAdditionalParams());
+                keyData.add(StringModifiers.BR + "Event: " + keyStrokeEvent);
+                keyData.addClass(P_CLAZZ);
+                return new ResponseBody(new ResponseBody.ComponentStruct(P_CLAZZ, keyData));
+            }
         }
 
         return new ResponseBody();
     }
 
-    private Page createSnakePage(SnakeData snakeData) { //TODO
+    private Page createSnakePage(SnakeData snakeData) {
+        snakeData.step();
         Page page = new Page();
+        page.addScript(Scripts.getKeyPressListenerScript(new HashMap<>()));
+        page.addScript(Scripts.getAutomaticRefreshScript(1000));
+
         Table table = new Table();
         for (int y = 0; y < SNAKE_SIZE; y++) {
             for (int x = 0; x < SNAKE_SIZE; x++) {
-                table.addCell(new Img("/files/snake_field")
-                        .putMeta("width", 30).putMeta("height", 30));
+                Point point = new Point(x, y);
+                if (snakeData.getFood().getFirst().equals(point)) {
+                    if (snakeData.getFood().getSecond()) {
+                        table.addCell(new Img("/files/snake_big_food")
+                                .putMeta("width", 30).putMeta("height", 30));
+                    } else {
+                        table.addCell(new Img("/files/snake_food")
+                                .putMeta("width", 30).putMeta("height", 30));
+                    }
+                } else if (snakeData.getHead().equals(point)) {
+                    if (snakeData.isDead()) {
+                        table.addCell(new Img("/files/snake_dead_body")
+                                .putMeta("width", 30).putMeta("height", 30));
+                    } else {
+                        table.addCell(new Img("/files/snake_body")
+                                .putMeta("width", 30).putMeta("height", 30));
+                    }
+                } else if (snakeData.getBodies().contains(point)) {
+                    if (snakeData.isDead()) {
+                        table.addCell(new Img("/files/snake_dead_body")
+                                .putMeta("width", 30).putMeta("height", 30));
+                    } else {
+                        table.addCell(new Img("/files/snake_body")
+                                .putMeta("width", 30).putMeta("height", 30));
+                    }
+                } else {
+                    table.addCell(new Img("/files/snake_field")
+                            .putMeta("width", 30).putMeta("height", 30));
+                }
             }
             table.newRow();
         }
         page.addComponent(table);
         page.addComponent(new TryButton(CHANGE_RESET, "Back"));
+        page.addComponent(new TryButton(RESET_SNAKE, "Reset snake"));
         return page;
     }
 
@@ -136,7 +176,6 @@ public class Trie implements TryHandler {
     private Page createMainPage(SessionData data, RequestBody body) {
         Page page = new Page();
         page.addScript(Scripts.getKeyPressListenerScript(new HashMap<>()));
-        page.addScript(Scripts.getAutomaticRefreshScript(5000));
 
         page.addComponent(new TryButton(CHANGE_PAGE, "Change page"));
         page.addComponent(new TryButton(CHANGE_DIV, "Change div"));
@@ -169,23 +208,83 @@ public class Trie implements TryHandler {
     }
 
     public static class SnakeData {
+        @Getter
         private Point head;
-        private Set<Point> bodies;
+        @Getter
+        private final Deque<Point> bodies = new ArrayDeque<>();
+        @Getter
+        private Douplet<Point, Boolean> food;
+        private int notRemoveTail;
+        private Point addToHead;
+        @Getter
+        private boolean isDead = false;
 
-        public Douplet<Point,Boolean> getFood(){
-            while (true){
-                Point food = new Point(new Random().nextInt(SNAKE_SIZE),new Random().nextInt(SNAKE_SIZE));
-                if(food.equals(head)){
+        public SnakeData() {
+            head = new Point(8, 7);
+            notRemoveTail = 3;
+            food = createFood();
+            addToHead = new Point(1, 0);
+        }
+
+        public void setDirection(String keyCode) {
+            if (keyCode.equals("KeyS")) {
+                addToHead = new Point(0, 1);
+            }
+            if (keyCode.equals("KeyW")) {
+                addToHead = new Point(0, -1);
+            }
+            if (keyCode.equals("KeyA")) {
+                addToHead = new Point(-1, 0);
+            }
+            if (keyCode.equals("KeyD")) {
+                addToHead = new Point(1, 0);
+            }
+        }
+
+        public void step() {
+            if (isDead) {
+                return;
+            }
+
+            bodies.addFirst(head);
+            int newX = (head.getX() + addToHead.getX()) % SNAKE_SIZE;
+            int newY = (head.getY() + addToHead.getY()) % SNAKE_SIZE;
+            head = new Point(newX < 0 ? SNAKE_SIZE - 1 : newX, newY < 0 ? SNAKE_SIZE - 1 : newY);
+
+            if (food.getFirst().equals(head)) {
+                if (food.getSecond()) {
+                    notRemoveTail += 3;
+                } else {
+                    notRemoveTail += 1;
+                }
+                food = createFood();
+            }
+
+            if (bodies.contains(head)) {
+                isDead = true;
+            }
+
+            if (notRemoveTail == 0) {
+                bodies.removeLast();
+            } else {
+                notRemoveTail--;
+            }
+        }
+
+        private Douplet<Point, Boolean> createFood() {
+            while (true) {
+                Point food = new Point(new Random().nextInt(SNAKE_SIZE), new Random().nextInt(SNAKE_SIZE));
+                if (food.equals(head)) {
                     continue;
                 }
-                if(bodies.contains(food)){
+                if (bodies.contains(food)) {
                     continue;
                 }
-               if(10>new Random().nextInt(100)){
-                   return new Douplet<>(food,true);
-               }else {
-                   return new Douplet<>(food,false);
-               }
+                if (10 > new Random().nextInt(100)) {
+                    return new Douplet<>(food, true);
+                } else {
+                    return new Douplet<>(food, false);
+                }
             }
         }
     }

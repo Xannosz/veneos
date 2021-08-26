@@ -10,9 +10,21 @@ public class Button extends InlineComponent {
         putMeta("type", "button");
     }
 
+    public Button(HtmlComponent element, String onClick) {
+        super(element);
+        putMeta("type", "button");
+        putMeta("onclick", onClick);
+    }
+
     public Button(String element) {
         super(element);
         putMeta("type", "button");
+    }
+
+    public Button(String element, String onClick) {
+        super(element);
+        putMeta("type", "button");
+        putMeta("onclick", onClick);
     }
 
     public Button setSubmit() {

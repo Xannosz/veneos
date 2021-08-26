@@ -84,7 +84,7 @@ public class Scripts {
     }
 
     public static String getAutomaticRefreshScript(int interval) {
-        return "setInterval(function() {\n" +
+        return "window.setTimeout(function() {\n" +
                 getCallRestScript(REFRESH_REQUEST, "veneosInternalRefresh") +
                 "\n}, " + interval + ");";
     }
