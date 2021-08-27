@@ -7,6 +7,10 @@ import hu.xannosz.veneos.core.handler.FileContainer;
 import hu.xannosz.veneos.core.html.HtmlClass;
 import hu.xannosz.veneos.core.html.HtmlComponent;
 import hu.xannosz.veneos.core.html.box.Div;
+import hu.xannosz.veneos.core.html.form.Button;
+import hu.xannosz.veneos.core.html.form.Form;
+import hu.xannosz.veneos.core.html.form.Input;
+import hu.xannosz.veneos.core.html.form.Label;
 import hu.xannosz.veneos.core.html.media.Img;
 import hu.xannosz.veneos.core.html.str.P;
 import hu.xannosz.veneos.core.html.str.StringModifiers;
@@ -27,6 +31,7 @@ public class Trie implements TryHandler {
     private static final String CHANGE_RESET = "changeReset";
     private static final String CHANGE_SNAKE = "changeToSnake";
     private static final String RESET_SNAKE = "resetSnake";
+    private static final String SEND_FORM = "sendForm";
 
     private static final String BASE_PAGE_ID = "basePageId";
     private static final String NEW_PAGE_ID = "newPageId";
@@ -34,6 +39,8 @@ public class Trie implements TryHandler {
 
     private static final HtmlClass DIV_CLAZZ = new HtmlClass();
     private static final HtmlClass P_CLAZZ = new HtmlClass();
+    private static final HtmlClass FORM_CLAZZ = new HtmlClass();
+
     public static final int SNAKE_SIZE = 15;
 
     private final Map<String, SessionData> sessionDataMap = new HashMap<>();
@@ -58,7 +65,7 @@ public class Trie implements TryHandler {
     @Override
     public ResponseBody handleRequest(RequestBody body) {
         SessionData data = sessionDataMap.get(body.getSessionId());
-
+System.out.println("##"+body);
         if (data == null) {
             SessionData newData = new SessionData();
             newData.setPageId(BASE_PAGE_ID);
@@ -175,7 +182,7 @@ public class Trie implements TryHandler {
 
     private Page createMainPage(SessionData data, RequestBody body) {
         Page page = new Page();
-        page.addScript(Scripts.getKeyPressListenerScript(new HashMap<>()));
+        page.addScript(Scripts.getKeyDownListenerScript(new HashMap<>()));
 
         page.addComponent(new TryButton(CHANGE_PAGE, "Change page"));
         page.addComponent(new TryButton(CHANGE_DIV, "Change div"));
@@ -189,6 +196,15 @@ public class Trie implements TryHandler {
         }
 
         page.addComponent(keyData.addClass(P_CLAZZ));
+
+        Form form = new Form(Scripts.getScriptAsSelfExecutor(
+                Scripts.getFormSenderScript(SEND_FORM, FORM_CLAZZ, new HashMap<>())), true);
+        form.addClass(FORM_CLAZZ);
+        Input input = new Input("text");
+        form.add(new Label(input.getID().getSyntax(), "test Text:"));
+        form.add(input);
+        form.add(new Button("submit").setSubmit());
+        page.addComponent(form);
 
         return page;
     }

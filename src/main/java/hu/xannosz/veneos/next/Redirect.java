@@ -6,6 +6,7 @@ import hu.xannosz.veneos.core.html.structure.Page;
 import java.util.HashMap;
 import java.util.Map;
 
+@Deprecated
 public class Redirect extends HtmlComponent {
 
     private final String target;

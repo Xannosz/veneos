@@ -4,6 +4,7 @@ import hu.xannosz.veneos.core.html.HtmlComponent;
 import hu.xannosz.veneos.core.html.form.Button;
 import hu.xannosz.veneos.core.html.form.Form;
 
+@Deprecated
 public class OneButtonForm extends Form {
 
     public OneButtonForm(String action, HtmlComponent element, boolean useOnClick) {

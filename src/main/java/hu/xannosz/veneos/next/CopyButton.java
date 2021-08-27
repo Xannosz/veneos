@@ -5,6 +5,7 @@ import hu.xannosz.veneos.core.html.structure.Page;
 
 import java.util.UUID;
 
+@Deprecated
 public class CopyButton extends OneButtonForm {
 
     public CopyButton(HtmlComponent element, Page page, String text) {

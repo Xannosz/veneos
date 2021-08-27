@@ -9,6 +9,7 @@ import hu.xannosz.veneos.core.html.form.Label;
 import hu.xannosz.veneos.core.html.str.StringModifiers;
 import hu.xannosz.veneos.core.html.structure.Page;
 
+@Deprecated
 public class Login extends Page {
     public Login(String target, String buttonName, String userNameLabel, String passwordLabel) {
         this(target, new Button(buttonName), new Label("userName", userNameLabel), new Label("password", passwordLabel));

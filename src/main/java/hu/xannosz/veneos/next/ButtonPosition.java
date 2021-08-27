@@ -2,6 +2,7 @@ package hu.xannosz.veneos.next;
 
 import lombok.Setter;
 
+@Deprecated
 public class ButtonPosition {
 
     @Setter

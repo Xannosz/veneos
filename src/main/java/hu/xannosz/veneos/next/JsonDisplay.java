@@ -4,6 +4,7 @@ import hu.xannosz.veneos.core.html.HtmlComponent;
 import hu.xannosz.veneos.core.html.structure.Page;
 import org.json.JSONObject;
 
+@Deprecated
 public class JsonDisplay extends HtmlComponent {
 
     private final String json;

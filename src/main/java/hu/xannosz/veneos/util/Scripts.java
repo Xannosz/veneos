@@ -2,6 +2,7 @@ package hu.xannosz.veneos.util;
 
 import hu.xannosz.microtools.FileResourcesUtils;
 import hu.xannosz.microtools.Json;
+import hu.xannosz.veneos.core.html.HtmlClass;
 import hu.xannosz.veneos.trie.RequestTypes;
 import lombok.experimental.UtilityClass;
 
@@ -114,5 +115,14 @@ public class Scripts {
                                 "req.additionalParams." + ADDITIONAL_PARAMS_KEY + ".keyCode = event.keyCode;\n"
                 ) +
                 "}, false);";
+    }
+
+    public static String getFormSenderScript(String event, HtmlClass clazz, Map<String, Object> additionalParams) {
+        return "console.log('start script');"+
+                "var formData = new FormData(document.querySelector('."+clazz.getSyntax()+"'));" +
+                        "console.log(formData);"+
+                getCallRestScript("formData", event, additionalParams,
+                        "req.additionalParams.formData = formData;"
+                );
     }
 }
