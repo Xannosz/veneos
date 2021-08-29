@@ -31,7 +31,7 @@ public class Trie implements TryHandler {
     private static final String CHANGE_RESET = "changeReset";
     private static final String CHANGE_SNAKE = "changeToSnake";
     private static final String RESET_SNAKE = "resetSnake";
-    private static final String SEND_FORM = "sendForm";
+    private static final String SEND_FORM = "sendTestForm";
 
     private static final String BASE_PAGE_ID = "basePageId";
     private static final String NEW_PAGE_ID = "newPageId";
@@ -39,7 +39,6 @@ public class Trie implements TryHandler {
 
     private static final HtmlClass DIV_CLAZZ = new HtmlClass();
     private static final HtmlClass P_CLAZZ = new HtmlClass();
-    private static final HtmlClass FORM_CLAZZ = new HtmlClass();
 
     public static final int SNAKE_SIZE = 15;
 
@@ -65,7 +64,7 @@ public class Trie implements TryHandler {
     @Override
     public ResponseBody handleRequest(RequestBody body) {
         SessionData data = sessionDataMap.get(body.getSessionId());
-System.out.println("##"+body);
+
         if (data == null) {
             SessionData newData = new SessionData();
             newData.setPageId(BASE_PAGE_ID);
@@ -197,12 +196,20 @@ System.out.println("##"+body);
 
         page.addComponent(keyData.addClass(P_CLAZZ));
 
-        Form form = new Form(Scripts.getScriptAsSelfExecutor(
-                Scripts.getFormSenderScript(SEND_FORM, FORM_CLAZZ, new HashMap<>())), true);
-        form.addClass(FORM_CLAZZ);
-        Input input = new Input("text");
-        form.add(new Label(input.getID().getSyntax(), "test Text:"));
-        form.add(input);
+        Form form = new TryForm(SEND_FORM);
+
+        Input input1 = new Input("text").setName("input 1");
+        form.add(new Label(input1.getID().getSyntax(), "test Text 1:"));
+        form.add(input1);
+
+        Input input2 = new Input("text").setName("input 2");
+        form.add(new Label(input2.getID().getSyntax(), "test Text 2:"));
+        form.add(input2);
+
+        Input input3 = new Input("text").setName("input 3");
+        form.add(new Label(input3.getID().getSyntax(), "test Text 3:"));
+        form.add(input3);
+
         form.add(new Button("submit").setSubmit());
         page.addComponent(form);
 

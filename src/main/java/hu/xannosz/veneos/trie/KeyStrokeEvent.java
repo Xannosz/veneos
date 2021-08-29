@@ -7,7 +7,7 @@ import java.util.Map;
 
 @Data
 public class KeyStrokeEvent {
-    public static final String ADDITIONAL_PARAMS_KEY = "keyStrokeEvent";
+    public static final String KEY_STROKE_EVENT_ADDITIONAL_PARAMS_KEY = "keyStrokeEvent";
 
     private boolean altKey;
     private boolean ctrlKey;
@@ -18,6 +18,6 @@ public class KeyStrokeEvent {
     private int keyCode;
 
     public static KeyStrokeEvent getFromMap(Map<String, Object> additionalParams) {
-        return Json.readData(Json.writeData(additionalParams.get(ADDITIONAL_PARAMS_KEY)), KeyStrokeEvent.class);
+        return Json.castObjectToSpecificClass(additionalParams.get(KEY_STROKE_EVENT_ADDITIONAL_PARAMS_KEY), KeyStrokeEvent.class);
     }
 }

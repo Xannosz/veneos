@@ -10,14 +10,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import static hu.xannosz.veneos.trie.KeyStrokeEvent.ADDITIONAL_PARAMS_KEY;
+import static hu.xannosz.veneos.trie.KeyStrokeEvent.KEY_STROKE_EVENT_ADDITIONAL_PARAMS_KEY;
 import static hu.xannosz.veneos.trie.RequestTypes.REFRESH_REQUEST;
 
 @UtilityClass
 public class Scripts {
 
     public static String getScriptAsSelfExecutor(String script) {
-        return "(function (){\n" + script + "\n})()";
+        return "(function (){\n" + script + "\n})();";
     }
 
     public static String getCallRestScript(String requestType, String eventId) {
@@ -44,7 +44,7 @@ public class Scripts {
                 "  headers: {\n" +
                 "    'Content-Type': 'application/json'\n" +
                 "  }\n" +
-                "};" +
+                "};\n" +
                 "data.body = JSON.stringify(req);\n" +
 
                 "const response = fetch('/internal', data).then(function(response) {\n" +
@@ -105,24 +105,28 @@ public class Scripts {
     private static String getKeyListenerScript(String event, Map<String, Object> additionalParams) {
         return "document.addEventListener('" + event + "', (event) => {\n" +
                 getCallRestScript(RequestTypes.KEY_STROKE_REQUEST, event, additionalParams,
-                        "req.additionalParams." + ADDITIONAL_PARAMS_KEY + " = {};\n" +
-                                "req.additionalParams." + ADDITIONAL_PARAMS_KEY + ".altKey = event.altKey;\n" +
-                                "req.additionalParams." + ADDITIONAL_PARAMS_KEY + ".ctrlKey = event.ctrlKey;\n" +
-                                "req.additionalParams." + ADDITIONAL_PARAMS_KEY + ".metaKey = event.metaKey;\n" +
-                                "req.additionalParams." + ADDITIONAL_PARAMS_KEY + ".shiftKey = event.shiftKey;\n" +
-                                "req.additionalParams." + ADDITIONAL_PARAMS_KEY + ".key = event.key;\n" +
-                                "req.additionalParams." + ADDITIONAL_PARAMS_KEY + ".code = event.code;\n" +
-                                "req.additionalParams." + ADDITIONAL_PARAMS_KEY + ".keyCode = event.keyCode;\n"
+                        "req.additionalParams." + KEY_STROKE_EVENT_ADDITIONAL_PARAMS_KEY + " = {};\n" +
+                                "req.additionalParams." + KEY_STROKE_EVENT_ADDITIONAL_PARAMS_KEY + ".altKey = event.altKey;\n" +
+                                "req.additionalParams." + KEY_STROKE_EVENT_ADDITIONAL_PARAMS_KEY + ".ctrlKey = event.ctrlKey;\n" +
+                                "req.additionalParams." + KEY_STROKE_EVENT_ADDITIONAL_PARAMS_KEY + ".metaKey = event.metaKey;\n" +
+                                "req.additionalParams." + KEY_STROKE_EVENT_ADDITIONAL_PARAMS_KEY + ".shiftKey = event.shiftKey;\n" +
+                                "req.additionalParams." + KEY_STROKE_EVENT_ADDITIONAL_PARAMS_KEY + ".key = event.key;\n" +
+                                "req.additionalParams." + KEY_STROKE_EVENT_ADDITIONAL_PARAMS_KEY + ".code = event.code;\n" +
+                                "req.additionalParams." + KEY_STROKE_EVENT_ADDITIONAL_PARAMS_KEY + ".keyCode = event.keyCode;\n"
                 ) +
                 "}, false);";
     }
 
-    public static String getFormSenderScript(String event, HtmlClass clazz, Map<String, Object> additionalParams) {
-        return "console.log('start script');"+
-                "var formData = new FormData(document.querySelector('."+clazz.getSyntax()+"'));" +
-                        "console.log(formData);"+
-                getCallRestScript("formData", event, additionalParams,
-                        "req.additionalParams.formData = formData;"
+    public static String getFormSenderScript(String eventId, HtmlClass clazz, Map<String, Object> additionalParams) {
+        return "var form = document.querySelector('." + clazz.getSyntax() + "');\n" +
+                getCallRestScript(RequestTypes.FORM_DATA_REQUEST, eventId, additionalParams,
+                        "req.additionalParams.formData = {};\n" +
+                                "for ( var i = 0; i < form.elements.length; i++ ) {\n" +
+                                "   var e = form.elements[i];\n" +
+                                "   if(e.tagName != 'BUTTON'){\n" +
+                                "       req.additionalParams.formData[encodeURIComponent(e.name)] = encodeURIComponent(e.value);\n" +
+                                "   }\n" +
+                                "}"
                 );
     }
 }

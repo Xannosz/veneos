@@ -6,9 +6,9 @@ import java.util.Map;
 
 public class Form extends AbstractBox {
 
-    public Form(String action, boolean useOnClick) {
-        if (useOnClick) {
-            putMeta("onclick", action);
+    public Form(String action, boolean useJs) {
+        if (useJs) {
+            putMeta("onsubmit", action);
         } else {
             putMeta("action", action);
             putMeta("method", "post");
