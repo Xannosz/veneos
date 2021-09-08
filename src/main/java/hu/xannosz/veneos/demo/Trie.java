@@ -1,6 +1,7 @@
 package hu.xannosz.veneos.demo;
 
 import hu.xannosz.microtools.FileResourcesUtils;
+import hu.xannosz.microtools.Sleep;
 import hu.xannosz.microtools.pack.Douplet;
 import hu.xannosz.veneos.core.VeneosServer;
 import hu.xannosz.veneos.core.handler.FileContainer;
@@ -39,11 +40,13 @@ public class Trie implements TryHandler {
 
     private static final HtmlClass DIV_CLAZZ = new HtmlClass();
     private static final HtmlClass P_CLAZZ = new HtmlClass();
+    private static final HtmlClass DIV_SOCKET_CLAZZ = new HtmlClass();
 
     public static final int SNAKE_SIZE = 15;
 
     private final Map<String, SessionData> sessionDataMap = new HashMap<>();
     private P keyData = new P("");
+    private final TryWebSocketServer webSocketServer;
 
     public static void main(String[] args) {
         VeneosServer server = new VeneosServer();
@@ -59,6 +62,16 @@ public class Trie implements TryHandler {
         FileContainer.addFile("snake_dead_body", FileResourcesUtils.getFileFromResourceAsFile("demo/snake/snake_dead_body.png"));
         FileContainer.addFile("snake_food", FileResourcesUtils.getFileFromResourceAsFile("demo/snake/snake_food.png"));
         FileContainer.addFile("snake_big_food", FileResourcesUtils.getFileFromResourceAsFile("demo/snake/snake_big_food.png"));
+        webSocketServer = new TryWebSocketServer(8400, this);
+        webSocketServer.start();
+
+        Thread thread = new Thread(() -> {
+            Sleep.sleepMinutes(1);
+            for (Map.Entry<String, SessionData> session : sessionDataMap.entrySet()) {
+                webSocketServer.sendRefresh(session.getKey());
+            }
+        });
+        thread.start();
     }
 
     @Override
@@ -74,7 +87,11 @@ public class Trie implements TryHandler {
 
         if (body.getRequestType().equals(RequestTypes.REFRESH_REQUEST)) {
             if (data.getPageId().equals(BASE_PAGE_ID)) {
-                return new ResponseBody(createMainPage(data, body));
+                if (body.getEventId().equals("veneosWebSocketRefresh")) {
+                    return new ResponseBody(new ResponseBody.ComponentStruct(DIV_SOCKET_CLAZZ, new P("Server communication success.")));
+                } else {
+                    return new ResponseBody(createMainPage(data, body));
+                }
             }
             if (data.getPageId().equals(NEW_PAGE_ID)) {
                 return new ResponseBody(createNewPage());
@@ -182,6 +199,7 @@ public class Trie implements TryHandler {
     private Page createMainPage(SessionData data, RequestBody body) {
         Page page = new Page();
         page.addScript(Scripts.getKeyDownListenerScript(new HashMap<>()));
+        page.addScript(Scripts.getCreateWebSocketScript("127.0.0.1:8400"));
 
         page.addComponent(new TryButton(CHANGE_PAGE, "Change page"));
         page.addComponent(new TryButton(CHANGE_DIV, "Change div"));
@@ -193,6 +211,8 @@ public class Trie implements TryHandler {
         } else {
             page.addComponent(new Div().addClass(DIV_CLAZZ));
         }
+
+        page.addComponent(new Div().addClass(DIV_SOCKET_CLAZZ));
 
         page.addComponent(keyData.addClass(P_CLAZZ));
 

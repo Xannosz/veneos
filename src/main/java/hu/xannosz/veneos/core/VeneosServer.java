@@ -38,7 +38,7 @@ public class VeneosServer {
     private LogHandler logger = new DefaultLogHandler();
     @Getter
     @Setter
-    private String encoding = "UTF-8";
+    private String encoding = "UTF-8"; //TODO use encoding static
     @Setter
     private File keyStore;
     @Setter

@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>hu.xannosz</groupId>
 	<artifactId>veneos</artifactId>
-	<version>0.3.0</version>
+	<version>0.4.0</version>
 	<name>veneos</name>
 	<description>Html Gui</description>
 	<organization>
@@ -70,6 +70,11 @@
             <version>4.11</version>
             <scope>test</scope>
         </dependency>
+		<dependency>
+			<groupId>org.java-websocket</groupId>
+			<artifactId>Java-WebSocket</artifactId>
+			<version>[1.3.0,)</version>
+		</dependency>
     </dependencies>
 
 	<repositories>

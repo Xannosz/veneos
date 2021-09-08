@@ -129,4 +129,20 @@ public class Scripts {
                                 "}"
                 );
     }
+
+    public static String getCreateWebSocketScript(String webSocketAddress) {
+        return getCookieScript() +
+                "\n" +
+                "req = {};\n" +
+                "req.sessionId = getCookie('veneosSessionID');\n" +
+                "var connection = new WebSocket('ws://"+webSocketAddress+"');\n" +
+                "\n" +
+                "connection.onopen = function () {\n" +
+                "    connection.send(JSON.stringify(req));\n" +
+                "};\n" +
+                "\n" +
+                "connection.onmessage = function (e) {\n" +
+                getCallRestScript(REFRESH_REQUEST, "veneosWebSocketRefresh") +
+                "\n};";
+    }
 }
