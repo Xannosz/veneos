@@ -3,6 +3,7 @@ package hu.xannosz.veneos.demo;
 import hu.xannosz.microtools.FileResourcesUtils;
 import hu.xannosz.microtools.pack.Douplet;
 import hu.xannosz.veneos.core.VeneosServer;
+import hu.xannosz.veneos.core.VeneosServerConfig;
 import hu.xannosz.veneos.core.handler.FileContainer;
 import hu.xannosz.veneos.core.handler.HttpHandler;
 import hu.xannosz.veneos.core.html.box.Main;
@@ -19,10 +20,9 @@ import java.util.Map;
 
 public class Veneos implements HttpHandler {
 
-    public static void main(String[] args)   {
+    public static void main(String[] args) {
         VeneosServer server = new VeneosServer();
-        server.createServer(8000);
-        server.setHandler(new Veneos());
+        server.createServer(new VeneosServerConfig(new Veneos(), 8000));
     }
 
     private final Page normal = new Page();

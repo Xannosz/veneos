@@ -4,17 +4,15 @@ import com.sun.net.httpserver.*;
 import hu.xannosz.microtools.Json;
 import hu.xannosz.microtools.pack.Douplet;
 import hu.xannosz.veneos.core.css.Theme;
-import hu.xannosz.veneos.core.handler.DefaultLogHandler;
 import hu.xannosz.veneos.core.handler.FileContainer;
 import hu.xannosz.veneos.core.handler.HttpHandler.RequestMethod;
-import hu.xannosz.veneos.core.handler.LogHandler;
 import hu.xannosz.veneos.core.handler.ThemeHandler;
 import hu.xannosz.veneos.core.html.structure.Page;
 import hu.xannosz.veneos.trie.RequestBody;
 import hu.xannosz.veneos.trie.ResponseBody;
 import hu.xannosz.veneos.trie.TryHandler;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 
 import javax.net.ssl.*;
@@ -27,31 +25,31 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@Slf4j
 @SuppressWarnings("restriction")
 public class VeneosServer {
 
-    @Setter
     private hu.xannosz.veneos.core.handler.HttpHandler handler;
-    @Setter
     private TryHandler tryHandler;
-    @Setter
-    private LogHandler logger = new DefaultLogHandler();
     @Getter
-    @Setter
-    private String encoding = "UTF-8"; //TODO use encoding static
-    @Setter
+    private String encoding;
     private File keyStore;
-    @Setter
     private String keyStorePassword;
 
-    public void createServer(int port) {
+    public void createServer(VeneosServerConfig veneosServerConfig) {
+        handler = veneosServerConfig.getHandler();
+        tryHandler = veneosServerConfig.getTryHandler();
+        encoding = veneosServerConfig.getEncoding();
+        keyStore = veneosServerConfig.getKeyStore();
+        keyStorePassword = veneosServerConfig.getKeyStorePassword();
+
         HttpServer server;
         try {
             if (keyStorePassword != null) {
-                server = HttpsServer.create(new InetSocketAddress(port), 0);
+                server = HttpsServer.create(new InetSocketAddress(veneosServerConfig.getPort()), 0);
                 createSSLContext((HttpsServer) server);
             } else {
-                server = HttpServer.create(new InetSocketAddress(port), 0);
+                server = HttpServer.create(new InetSocketAddress(veneosServerConfig.getPort()), 0);
             }
             server.createContext("/", new MainHandler());
             server.createContext("/files", new FileHandler());
@@ -60,7 +58,7 @@ public class VeneosServer {
             server.setExecutor(null);
             server.start();
         } catch (Exception e) {
-            logger.error(e);
+            log.error("Exception during server creation.", e);
         }
     }
 
@@ -68,7 +66,7 @@ public class VeneosServer {
         SSLContext sslContext = SSLContext.getInstance("TLS");
 
         if (keyStore == null || !keyStore.exists()) {
-            logger.error("KeyStore " + keyStore + " doesn't exists.");
+            log.error("KeyStore " + keyStore + " doesn't exists.");
         }
 
         // initialise the keystore
@@ -76,15 +74,15 @@ public class VeneosServer {
         KeyStore ks = KeyStore.getInstance("JKS");
         ks.load(new FileInputStream(keyStore), password);
 
-        // setup the key manager factory
+        // set up the key manager factory
         KeyManagerFactory kmf = KeyManagerFactory.getInstance("SunX509");
         kmf.init(ks, password);
 
-        // setup the trust manager factory
+        // set up the trust manager factory
         TrustManagerFactory tmf = TrustManagerFactory.getInstance("SunX509");
         tmf.init(ks);
 
-        // setup the HTTPS context and parameters
+        // set up the HTTPS context and parameters
         sslContext.init(kmf.getKeyManagers(), tmf.getTrustManagers(), null);
         httpsServer.setHttpsConfigurator(new HttpsConfigurator(sslContext) {
             public void configure(HttpsParameters params) {
@@ -100,7 +98,7 @@ public class VeneosServer {
                     SSLParameters sslParameters = context.getSupportedSSLParameters();
                     params.setSSLParameters(sslParameters);
                 } catch (Exception ex) {
-                    logger.error("Failed to create HTTPS port.", ex);
+                    log.error("Failed to create HTTPS port.", ex);
                 }
             }
         });
@@ -117,7 +115,7 @@ public class VeneosServer {
             try {
                 syntax = response.getSecond().getSyntax();
             } catch (Exception e) {
-                logger.error(e);
+                log.error("Exception during response creation.", e);
             }
             byte[] responseSyntax = syntax.getBytes(encoding);
             t.sendResponseHeaders(response.getFirst(), responseSyntax.length);
@@ -134,7 +132,7 @@ public class VeneosServer {
             try {
                 IOUtils.copy(requestBody, writer, encoding);
             } catch (IOException e) {
-                logger.error(e);
+                log.error("Exception during request body conversation.", e);
             }
 
             for (String field : writer.toString().split("&")) {
@@ -153,7 +151,7 @@ public class VeneosServer {
             try {
                 return URLDecoder.decode(input, encoding);
             } catch (UnsupportedEncodingException e) {
-                logger.error(e);
+                log.error("Exception during character decoding.", e);
                 return input;
             }
         }

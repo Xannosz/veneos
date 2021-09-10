@@ -4,6 +4,7 @@ import hu.xannosz.microtools.FileResourcesUtils;
 import hu.xannosz.microtools.Sleep;
 import hu.xannosz.microtools.pack.Douplet;
 import hu.xannosz.veneos.core.VeneosServer;
+import hu.xannosz.veneos.core.VeneosServerConfig;
 import hu.xannosz.veneos.core.handler.FileContainer;
 import hu.xannosz.veneos.core.html.HtmlClass;
 import hu.xannosz.veneos.core.html.HtmlComponent;
@@ -50,10 +51,7 @@ public class Trie implements TryHandler {
 
     public static void main(String[] args) {
         VeneosServer server = new VeneosServer();
-        server.createServer(8000);
-        Trie trie = new Trie();
-        server.setTryHandler(trie);
-        server.setHandler(new DefaultTryHttpHandler());
+        server.createServer(new VeneosServerConfig(new Trie(), 8000));
     }
 
     public Trie() {
