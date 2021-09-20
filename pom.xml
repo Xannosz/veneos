@@ -79,11 +79,18 @@
 
 	<repositories>
 		<repository>
-			<id>xannosz.repo</id>
 			<name>Xannosz</name>
-			<url>http://apollo.xannosz.cloud/repositories/</url>
+			<id>xannosz-repository</id>
+			<url>http://daedalus.xannosz.cloud:2192/snapshots</url>
 		</repository>
 	</repositories>
+
+	<distributionManagement>
+		<repository>
+			<id>xannosz-repository</id>
+			<url>http://daedalus.xannosz.cloud:2192/snapshots</url>
+		</repository>
+	</distributionManagement>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
