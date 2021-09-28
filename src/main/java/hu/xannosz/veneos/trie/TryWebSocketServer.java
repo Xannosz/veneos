@@ -3,7 +3,6 @@ package hu.xannosz.veneos.trie;
 import hu.xannosz.microtools.Json;
 import hu.xannosz.veneos.util.RequestBodyUtil;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
@@ -45,7 +44,7 @@ public class TryWebSocketServer extends WebSocketServer {
     @Override
     public void onMessage(WebSocket connection, String message) {
         if (webSocketIds.get(connection).equals("")) {
-            HelloMessage helloMessage = Json.castObjectToSpecificClass(message, HelloMessage.class);
+            HelloMessage helloMessage = Json.readData(message, HelloMessage.class);
             if (helloMessage != null) {
                 webSocketIds.put(connection, helloMessage.getSessionId());
             }
@@ -64,7 +63,6 @@ public class TryWebSocketServer extends WebSocketServer {
     }
 
     @Data
-    @NoArgsConstructor
     private static class HelloMessage {
         private String sessionId;
     }
