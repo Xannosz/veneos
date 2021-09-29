@@ -4,8 +4,11 @@ import hu.xannosz.microtools.FileResourcesUtils;
 import hu.xannosz.microtools.Json;
 import hu.xannosz.veneos.core.html.HtmlClass;
 import hu.xannosz.veneos.trie.RequestTypes;
+import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -28,6 +31,7 @@ public class Scripts {
         return getCallRestScript(requestType, eventId, additionalParams, "");
     }
 
+    @SneakyThrows
     public static String getCallRestScript(String requestType, String eventId, Map<String, Object> additionalParams, String additionalScript) {
         return getCookieScript() +
                 "\n" +
@@ -35,7 +39,8 @@ public class Scripts {
                 "req.requestType = '" + requestType + "';\n" +
                 "req.sessionId = getCookie('veneosSessionID');\n" +
                 "req.eventId = '" + eventId + "';\n" +
-                "req.additionalParams = " + Json.writeData(additionalParams) + ";\n\n" +
+                "req.extraParams = '" + URLEncoder.encode(Json.writeData(additionalParams), StandardCharsets.UTF_8.toString()) + "';\n" +
+                "req.additionalParams = {};\n\n" +
 
                 additionalScript +
 
@@ -135,7 +140,7 @@ public class Scripts {
                 "\n" +
                 "req = {};\n" +
                 "req.sessionId = getCookie('veneosSessionID');\n" +
-                "var connection = new WebSocket('ws://"+webSocketAddress+"');\n" +
+                "var connection = new WebSocket('ws://" + webSocketAddress + "');\n" +
                 "\n" +
                 "connection.onopen = function () {\n" +
                 "    connection.send(JSON.stringify(req));\n" +

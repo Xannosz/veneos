@@ -203,12 +203,26 @@ public class VeneosServer {
 
     public class InternalHandler implements HttpHandler {
         public void handle(HttpExchange t) throws IOException {
-            String requestBody = new BufferedReader(
+            String stringRequestBody = new BufferedReader(
                     new InputStreamReader(t.getRequestBody(), StandardCharsets.UTF_8))
                     .lines()
                     .collect(Collectors.joining("\n"));
 
-            ResponseBody responseBody = tryHandler.handleRequest(Json.readData(requestBody, RequestBody.class));
+            InternalRequestBody internalRequestBody = Json.readData(stringRequestBody, InternalRequestBody.class);
+
+            RequestBody requestBody = new RequestBody();
+            requestBody.setRequestType(internalRequestBody.getRequestType());
+            requestBody.setSessionId(internalRequestBody.getSessionId());
+            requestBody.setEventId(internalRequestBody.getEventId());
+            requestBody.setAdditionalParams(new HashMap<>());
+            requestBody.getAdditionalParams().putAll(
+                    Json.readData(
+                            URLDecoder.decode(internalRequestBody.getExtraParams(),
+                                    StandardCharsets.UTF_8.toString()),
+                            Map.class));
+            requestBody.getAdditionalParams().putAll(internalRequestBody.getAdditionalParams());
+
+            ResponseBody responseBody = tryHandler.handleRequest(requestBody);
 
             byte[] responseSyntax = Json.writeData(responseBody).getBytes(encoding);
             t.sendResponseHeaders(200, responseSyntax.length);
@@ -216,6 +230,11 @@ public class VeneosServer {
             os.write(responseSyntax);
             os.flush();
             os.close();
+        }
+
+        private class InternalRequestBody extends RequestBody {
+            @Getter
+            private String extraParams;
         }
     }
 }
